@@ -1,0 +1,36 @@
+.login-box { margin: 0; width: auto; }
+.login-box-body { background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 5px 5px #222222; color: #191818; padding: 6%; }
+.msgWelcome { font-size: 1.5em; margin-bottom: 20px; margin-top: 20px; color: #364d08; text-align: left; background-color: rgba(255, 255, 255, 0.6); padding: 10px; }
+.msgWelcome label { display: block; font-size: 0.8em; font-weight: normal; text-align: left; }
+body.login-page { background-image: url(../../images/bglogin.jpg); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: cover; }
+
+.checkinView .box-body span {display: block;}
+.invoice {margin: 0 0 20px;}
+
+.citySearch{position:relative;}
+.citySearch span { color: #000000; cursor: pointer; display: none; font-family: verdana; font-size: 14px; height: 34px; line-height: 34px; position: absolute; right: 25px; text-align: center; top: 25px; width: 20px; }
+
+
+.pac-container { border: 1px solid #cccccc !important; border-radius: 0 !important; box-shadow: none !important; width: 500px !important; background-image: url("https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png"); background-position: right 10px bottom 10px; background-repeat: no-repeat;}
+
+.pac-container .pac-item:first-child { border-top: medium none !important; }
+.pac-container .pac-item:last-child:hover{background-image: url("https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png"); background-position: right 10px bottom 10px; background-repeat: no-repeat;}
+.pac-item { cursor: pointer !important; line-height: 36px !important; padding: 0 10px !important; }
+.pac-item-query { padding-right: 5px !important; }
+.pac-logo::after{display:none;}
+
+.table-responsive {border: medium none; overflow-x: inherit;}
+.labelAvailable {background-color: #00a65a; color: #ffffff; font-size: 14px; padding: 5px 20px; border-radius: 10px;}
+.labelBooked {background-color: #dd4b39; color: #ffffff; font-size: 14px; padding: 5px 20px; border-radius: 10px;}
+/* For mobile devices */
+@media only screen and (max-width: 767px) {
+body.login-page {background-image: url(../../images/bg-mobile.jpg);}
+}
+@media (max-width:1000px) {
+body.login-page .col-xs-4 {width: 50%;}
+}
+
+@media (max-width:480px) {
+body.login-page .col-xs-4 {width: 100%;}
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { float: none; width: 100%; }
+}
