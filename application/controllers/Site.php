@@ -176,22 +176,27 @@ class Site extends CI_Controller {
     public function listing($id = '') {
         //$searchText = isset($_REQUEST['search_text']) && $_REQUEST['search_text'] != "" ? trim($_REQUEST['search_text']) : '';
         $searchText = $this->input->get('search_text');
-        if ($searchText != null) {
-            $this->db->where('(adtitle LIKE "%'.$searchText.'%" OR ad_desc LIKE "%'.$searchText.'%")');
-        }
-        if($id != 'all' || $id != '') {
-            $this->db->where('category',$id);
-        }
+        
 
         $this->load->model('Site_m');
         $config = $this->paginationConfiguaration($id);
-        $config["total_rows"] = $this->Site_m->record_count();
+        $config["total_rows"] = $this->Site_m->record_count($id,$searchText);
         $this->load->library("pagination");
+
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        echo $page;
+        $data["links"] = $this->pagination->create_links();
         $serachResult = $this->db->get('adpost')->result();
+
+        if ($searchText != null) {
+            $this->db->where('(t.adtitle LIKE "%'.$searchText.'%" OR t.ad_desc LIKE "%'.$searchText.'%")');
+        }
+        
+        if(!in_array($id,array('all',''))) {
+            $this->db->where('t.category',$id);
+        }
         $serachResult = $this->Site_m->getSearchDetail($id,$config["per_page"], $page);
+        
         $data['category_id'] = $id;
         $data['searchText'] = $searchText;
         $data['searchResult'] = $serachResult;

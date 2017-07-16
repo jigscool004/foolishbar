@@ -60,10 +60,13 @@
                             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
 
                                 <?php
-                                var_dump($searchResult);
                                 if (count($searchResult) > 0) {
                                     echo '<ul class="list-unstyled">';
                                     foreach ($searchResult as $key => $result) {
+                                        $imageUrl = site_url('assest/upload/adpost_photos/' . $result->adpost_id . '/' . $result->save_name);
+                                        if ($result->save_name == NULL || $result->save_name == '') {
+                                            $imageUrl = site_url('assest/upload/default.png');
+                                        }
                                         ?>
                                         <li>
                                             <div class="well ad-listing clearfix">
@@ -71,18 +74,13 @@
                                                     <!-- Image Box -->
                                                     <div class="img-box">
                                                         <img alt="" class="img-responsive"
-                                                             src="images/posting/list-1.jpg">
-                                                        <div class="total-images"><strong>8</strong> photos</div>
+                                                             src="<?php echo $imageUrl ?>">
+                                                        <div class="total-images"><strong><?php echo $result->totalPhotos?></strong> photos</div>
                                                         <div class="quick-view"><a class="view-button"
                                                                                    data-toggle="modal"
                                                                                    href="#ad-preview"><i
                                                                         class="fa fa-search"></i></a></div>
                                                     </div>
-                                                    <!-- User Preview -->
-                                                    <!--<div class="user-preview">
-                                                        <a href="#"> <img alt="" class="avatar avatar-small"
-                                                                          src="images/users/2.jpg"> </a>
-                                                    </div>-->
                                                 </div>
                                                 <div class="col-md-9 col-sm-7 col-xs-12">
                                                     <!-- Ad Content-->
@@ -113,37 +111,41 @@
                                                                 </ul>
                                                                 <!-- Ad Meta Info -->
                                                                 <ul class="ad-meta-info">
-                                                                    <li><i class="fa fa-map-marker"></i><a href="#">London</a>
+                                                                    <li><i class="fa fa-map-marker"></i>
+                                                                        <a href="#"><?php echo $result->city_name; ?></a>
                                                                     </li>
-                                                                    <li><i class="fa fa-clock-o"></i>15 minutes ago</li>
+                                                                    <li>
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                        <?php echo time_elapsed_string($result->created_on); ?>
+                                                                    </li>
                                                                 </ul>
                                                                 <!-- Ad Description-->
                                                                 <div class="ad-details">
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adiscing
-                                                                        das elited ultricies facilisis lacinia pell das
-                                                                        elited ultricies facilisis ... </p>
+                                                                    <p><?php echo $result->ad_desc ?></p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3 col-xs-12 col-sm-12">
                                                                 <!-- Ad Stats -->
                                                                 <div class="short-info">
                                                                     <div class="ad-stats hidden-xs">
-                                                                        <span>Condition  : </span>Used
+                                                                        <span>Category : </span><?php echo $result->category_name ?>
                                                                     </div>
+                                                                </div>
+                                                                <div class="short-info">
                                                                     <div class="ad-stats hidden-xs">
-                                                                        <span>Warranty : </span>7 Days
-                                                                    </div>
-                                                                    <div class="ad-stats hidden-xs">
-                                                                        <span>Sub Category : </span>Mobiles
+                                                                        <span>Model : </span><?php echo $result->category_name ?>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Price -->
-                                                                <div class="price"><span>$18,640</span></div>
+                                                                <div class="price"><span>Rs.<?php echo $result->price;?></span></div>
                                                                 <!-- Ad View Button -->
-                                                                <button class="btn btn-block btn-success"><i
-                                                                            aria-hidden="true" class="fa fa-eye"></i>
-                                                                    View Ad.
-                                                                </button>
+                                                                <a href="<?php echo site_url('adpost/view/' . $result->id) ?>">
+                                                                    <button class="btn btn-block btn-success" ><i
+                                                                                aria-hidden="true" class="fa fa-eye"></i>
+                                                                        View Ad.
+                                                                    </button>    
+                                                                </a>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -157,6 +159,9 @@
                                 }
                                 ?>
                             </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 col-sm-12">
+                         <?php echo $links; ?>            
                         </div>
                     </div>
                 </div>
