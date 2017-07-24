@@ -57,7 +57,7 @@
                     <?php foreach ($mobileCategoryObj as $key => $mobileCat) { ?>
                         <div class="col-md-3 col-xs-12 col-sm-6">
                             <div class="box">
-                                <!-- <img alt="img" src="images/category/cars.png"> -->
+                                 <img alt="img" src="<?php echo site_url('assest/front/images/mobile.png'); ?>">
                                 <h4><a href="site/listing/<?php echo $mobileCat->id ?>"><?php echo $mobileCat->name; ?></a></h4>
                                 <?php if (isset($adpostByCategory[$mobileCat->id])) {
                                         echo '<strong>'.$adpostByCategory[$mobileCat->id].' Ads</strong>';

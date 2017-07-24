@@ -23,7 +23,9 @@
                         </select>
                     </div>
                     <div class="col-md-6 col-xs-12 col-sm-4 no-padding">
-                        <input type="text" name="search_text" class="form-control search_text">
+                        <input type="text" name="search_text"
+                               value="<?php echo isset($_REQUEST['search_text']) ? $_REQUEST['search_text'] : '' ?>"
+                               class="form-control search_text">
                     </div>
                     <div class="col-md-3 col-xs-12 col-sm-4 no-padding">
                         <button type="submit" name="submit" value="search" class="btn btn-block btn-light">Search
@@ -40,22 +42,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sx-12">
+                    <?php  if (count($searchResult) > 0) {?>
                     <div class="row">
                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                             <div class="filter-brudcrums">
-                                <span>Showing <span class="showed">1 - 20</span> of <span class="showed">42211</span> results</span>
-                                <div class="filter-brudcrums-sort">
-                                    <ul>
-                                        <li><span>Sort by:</span></li>
-                                        <li><a href="#">Updated date</a></li>
-                                        <li><a href="#">Price</a></li>
-                                        <li><a href="#">New</a></li>
-                                        <li><a href="#">Used</a></li>
-                                        <li><a href="#">Warranty</a></li>
-                                    </ul>
-                                </div>
+                                <span class="pull-right">Showing 
+                                    <span class="showed"><?php echo $x . ' - ' . $y; ?></span> of
+                                    <span class="showed"><?php echo $totalCount; ?></span> results
+                                </span>
                             </div>
                         </div>
+                        <?php }?>
+                        <div class="clearfix"></div>
                         <div class="posts-masonry">
                             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
 
@@ -75,11 +73,9 @@
                                                     <div class="img-box">
                                                         <img alt="" class="img-responsive"
                                                              src="<?php echo $imageUrl ?>">
-                                                        <div class="total-images"><strong><?php echo $result->totalPhotos?></strong> photos</div>
-                                                        <div class="quick-view"><a class="view-button"
-                                                                                   data-toggle="modal"
-                                                                                   href="#ad-preview"><i
-                                                                        class="fa fa-search"></i></a></div>
+                                                        <div class="total-images">
+                                                            <strong><?php echo $result->totalPhotos ?></strong> photos
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-sm-7 col-xs-12">
@@ -89,7 +85,7 @@
                                                             <div class="col-md-9 col-sm-12 col-xs-12">
 
                                                                 <h3>
-                                                                    <a href="<?php echo site_url('adpost/view/' . $result->id);?>"><?php echo $result->adtitle ?></a>
+                                                                    <a href="<?php echo site_url('adpost/view/' . $result->id); ?>"><?php echo $result->adtitle ?></a>
                                                                 </h3>
                                                                 <!-- Info Icons -->
                                                                 <ul class="additional-info pull-right">
@@ -115,7 +111,7 @@
                                                                         <a href="#"><?php echo $result->city_name; ?></a>
                                                                     </li>
                                                                     <li>
-                                                                    <i class="fa fa-clock-o"></i>
+                                                                        <i class="fa fa-clock-o"></i>
                                                                         <?php echo time_elapsed_string($result->created_on); ?>
                                                                     </li>
                                                                 </ul>
@@ -137,15 +133,17 @@
                                                                     </div>
                                                                 </div>
                                                                 <!-- Price -->
-                                                                <div class="price"><span>Rs.<?php echo $result->price;?></span></div>
+                                                                <div class="price">
+                                                                    <span>Rs.<?php echo $result->price; ?></span></div>
                                                                 <!-- Ad View Button -->
                                                                 <a href="<?php echo site_url('adpost/view/' . $result->id) ?>">
-                                                                    <button class="btn btn-block btn-success" ><i
-                                                                                aria-hidden="true" class="fa fa-eye"></i>
+                                                                    <button class="btn btn-block btn-success"><i
+                                                                                aria-hidden="true"
+                                                                                class="fa fa-eye"></i>
                                                                         View Ad.
-                                                                    </button>    
+                                                                    </button>
                                                                 </a>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -156,12 +154,14 @@
                                         <?php
                                     }
                                     echo '</ul>';
+                                } else {
+                                    echo 'no result found';
                                 }
                                 ?>
                             </div>
                         </div>
                         <div class="col-md-12 col-xs-12 col-sm-12">
-                         <?php echo $links; ?>            
+                            <?php echo $links; ?>
                         </div>
                     </div>
                 </div>

@@ -20,12 +20,11 @@
         <link rel="stylesheet" href="<?php echo site_url('assest/front/css/select2.min.css') ?>">
         <link rel="stylesheet" href="<?php echo site_url('assest/front/css/nouislider.min.css') ?>">
         <link rel="stylesheet" href="<?php echo site_url('assest/front/css/slider.css') ?>">
-        <link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.carousel.css') ?>">
-        <link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.theme.css') ?>">
+
         <link rel="stylesheet" href="<?php echo site_url('assest/front/css/responsive-media.css') ?>">
         <link rel="stylesheet" href="<?php echo site_url('assest/front/css/colors/defualt.css') ?>">
-        <link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.theme.css') ?>">
-        <link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.theme.css') ?>">
+
+
 
         <link href="<?php echo site_url('assest/front/skins/minimal/minimal.css'); ?>" rel="stylesheet">
         <script src="<?php echo site_url('assest/front/js/jquery.min.js'); ?>"></script>

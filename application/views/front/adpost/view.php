@@ -1,8 +1,11 @@
+<link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.carousel.css') ?>">
+<link rel="stylesheet" href="<?php echo site_url('assest/front/css/owl.theme.css') ?>">
 <script src="<?php echo site_url('assest/front/js/jquery.validate.min.js')?>"></script>
 <script src="<?php echo site_url('assest/admin-lte/js/jquery.toaster.js')?>"></script>
 <script src="<?php echo site_url('assest/admin-lte/js/bootbox.min.js'); ?>"></script>
-<script src="<?php echo site_url('assest/admin-lte/js/carousel.min.js'); ?>"></script>
-<script src="<?php echo site_url('assest/admin-lte/js/nouislider.all.min.js'); ?>"></script>
+<script src="<?php echo site_url('assest/admin-lte/js/jquery-migrate.min.js'); ?>"></script>
+
+<script src="<?php echo site_url('assest/front/js/slide.js'); ?>"></script>
 <style>
 	.row {margin-bottom: 10px;}
    .btn-file {
@@ -41,7 +44,7 @@
             <div class=" breadcrumb-link">
                <ul>
                   <li><a href="<?php echo site_url(); ?>">Home</a></li>
-                  <li><a href="#"><?php echo $adpost_dataArr->category_name; ?></a></li>
+                  <li><a href="<?php echo site_url('site/listing/' . $adpost_dataArr->category); ?>"><?php echo $adpost_dataArr->category_name; ?></a></li>
                   <li><a href="#" class="active"><?php echo $adpost_dataArr->adtitle; ?></a></li>
                </ul>
             </div>
@@ -85,10 +88,12 @@
                          <div class="flexslider" id="carousels">
                            <div class="flex-viewport">
                               <ul class="slides slide-thumbnail">
-                                 <?php foreach ($photos_dataArr as $key => $photo) { 
+                                 <?php foreach ($photos_dataArr as $key => $photo) {
                                       $activeclass = $key == 0 ? 'flex-active-slide' : '';
                                   ?>
-                                  <li class="<?php echo $activeclass; ?>"><img alt=""  draggable="false" src="<?php echo site_url('assest/upload/adpost_photos/' . $adpost_dataArr->adpost_id. '/' . $photo->save_name); ?>" title=""></li> 
+                                  <li class="<?php echo $activeclass; ?>">
+                                      <img alt=""  draggable="false" src="<?php echo site_url('assest/upload/adpost_photos/' . $adpost_dataArr->adpost_id. '/' . $photo->save_name); ?>" title="">
+                                  </li>
                                 <?php } ?>
                               
                               </ul>
@@ -225,6 +230,22 @@
       </div>
 <script>  
   $(document).ready(function(){
+      $('#carousels').flexslider({
+          animation: "slide",
+          controlNav: false,
+          animationLoop: false,
+          slideshow: false,
+          itemWidth: 110,
+          itemMargin: 50,
+          asNavFor: '.single-page-slider'
+      });
+      $('.single-page-slider').flexslider({
+          animation: "slide",
+          controlNav: false,
+          animationLoop: false,
+          slideshow: true,
+          sync: "#carousel"
+      });
   /* $('#carousels').flexslider({
           animation: "slide",
           controlNav: false,
@@ -241,7 +262,11 @@
           slideshow: true,
           sync: "#carousel"
       });*/
-
+      $(".flex-viewport").each(function() {
+          if ($.trim( $(this).html() ).length == 0) {
+              $(this).remove();
+          }
+      });
       $('.manageStatus').on('click',function(e) {
           e.preventDefault(); 
           var $this = $(this),

@@ -28,7 +28,7 @@ class Site_m extends CI_Model{
             $this->db->where('(adtitle LIKE "%'.$searchText.'%" OR ad_desc LIKE "%'.$searchText.'%")');
         }
 
-        if(!in_array($category_id,array('all',''))) {
+        if((int)$category_id > 0) {
         //if($category_id != 'all' || $category_id != '') {
             $this->db->where('category',$category_id);
         }
@@ -45,6 +45,7 @@ class Site_m extends CI_Model{
 
     public function getSearchDetail($id,$limit,$start) {
         $this->db->select('t.*,(SELECT save_name FROM document WHERE adpost_id = t.id LIMIT 1) AS save_name ,mc.name AS category_name,c.name as city_name,(SELECT COUNT(id) FROM document WHERE adpost_id = t.id) AS totalPhotos');
+        $this->db->distinct();
         $this->db->limit($limit,$start);
         $this->query();
         return $this->db->from($this->tableName)->get()->result();

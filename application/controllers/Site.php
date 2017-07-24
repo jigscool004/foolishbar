@@ -13,10 +13,10 @@ class Site extends CI_Controller {
 
         if (isset($_REQUEST['submit'])) {
             //$searchText = isset($_REQUEST['search_text']) ? $_REQUEST['search_text'] : '';
-            $category_id = isset($_REQUEST['cat']) ? $_REQUEST['cat'] : 'All';
+            $category_id = isset($_REQUEST['cat']) && $_REQUEST['cat'] != '' ? $_REQUEST['cat'] : 'All';
             $url = 'site/listing/' . $category_id;
             if (isset($_REQUEST['search_text']) && $_REQUEST['search_text'] != ""){
-                $url .= '?search_text='. $_REQUEST['search_text'];
+                $url .= '?search_text='. $this->input->get_post('search_text', TRUE);['search_text'];
             }
             redirect($url);
             exit;
@@ -173,18 +173,19 @@ class Site extends CI_Controller {
         redirect('site/login');
     }
 
-    public function listing($id = '') {
+    public function listing($id = 'all') {
         //$searchText = isset($_REQUEST['search_text']) && $_REQUEST['search_text'] != "" ? trim($_REQUEST['search_text']) : '';
         $searchText = $this->input->get('search_text');
-        
-
         $this->load->model('Site_m');
-        $config = $this->paginationConfiguaration($id);
-        $config["total_rows"] = $this->Site_m->record_count($id,$searchText);
+        $perPage = 10;
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $config = $this->paginationConfiguaration($id,$perPage,$page);
+        $totalCount = $this->Site_m->record_count($id,$searchText);
+        $config["total_rows"] = $totalCount;
         $this->load->library("pagination");
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        
         $data["links"] = $this->pagination->create_links();
         $serachResult = $this->db->get('adpost')->result();
 
@@ -192,14 +193,21 @@ class Site extends CI_Controller {
             $this->db->where('(t.adtitle LIKE "%'.$searchText.'%" OR t.ad_desc LIKE "%'.$searchText.'%")');
         }
         
-        if(!in_array($id,array('all',''))) {
+        if((int)$id > 0) {
             $this->db->where('t.category',$id);
         }
         $serachResult = $this->Site_m->getSearchDetail($id,$config["per_page"], $page);
-        
+        //lastQuery(); exit;
+        $data['x'] = (int)$page + 1;
+        if (($page + $perPage) >  $totalCount) {
+            $data['y'] = (int)$totalCount;
+        } else {
+            $data['y'] = $page + $perPage;
+        }
         $data['category_id'] = $id;
         $data['searchText'] = $searchText;
         $data['searchResult'] = $serachResult;
+        $data['totalCount'] = $totalCount;
         $data['header'] = 'Search';
         $data['mainContent'] = 'front/site/listing';
         $mobileCategory = $this->db->where('status',1)->get('mobile_category')->result();
@@ -234,12 +242,12 @@ class Site extends CI_Controller {
         }
     }
 
-    private function paginationConfiguaration($id) {
+    private function paginationConfiguaration($id,$perPage,$segment) {
         $config = array();
         $config["base_url"] = site_url('site/listing/' . $id);
 
-        $config["per_page"] = 2;
-        $config["uri_segment"] = 3;
+        $config["per_page"] = $perPage;
+        $config["uri_segment"] = $segment;
         $config['full_tag_open']    = "<ul class='pagination'>";
         $config['full_tag_close']   = "</ul>";
         $config['num_tag_open']     = '<li>';
