@@ -90,3 +90,16 @@
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
+
+    function frontDashboardCounter($type = 'myads') {
+        $ci = & get_instance();
+        if ($ci->session->userdata('isFrontLoggedIn')) {
+            if ($type == 'archived') {
+                $ci->db->where('is_archived',1);
+            }
+            $ci->db->where('is_deleted',0);
+            $ci->db->where('adpost_user_id',$ci->session->userdata('id'));
+            $result = $ci->db->select('id')->get('adpost')->result();
+            return count($result);
+        }
+    }

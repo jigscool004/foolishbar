@@ -57,6 +57,7 @@
   display: block;
   max-width: 100% !important;
   float: left;
+  height:55px;
 }
 
 .mega-menu input {

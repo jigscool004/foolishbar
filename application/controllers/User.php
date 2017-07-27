@@ -135,11 +135,15 @@ class User extends CI_Controller {
          }
     }
 
+    public function archived_ads() {
+        $this->myads(1);
+    }
 
-    public function myads() {
+    public function myads($isArchived = 0) {
         $this->load->model('Adpost_m');
         $this->load->library("pagination");
         $data['mainContent'] = 'front/user/myads';
+        $data['isArchived'] = $isArchived;
         $data['header'] = "My Ads";
         $config = array();
         $config["base_url"] = site_url('user/myads');

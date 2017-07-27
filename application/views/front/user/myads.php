@@ -24,6 +24,11 @@
                          <?php 
                               if (isset($results) && count($results)) {
                                     foreach($results as $key => $data) {
+                                        if ($isArchived == 1 && $data->is_archived == 0) {
+                                            continue;
+                                        } else if ($isArchived == 0 && $data->is_archived == 1) {
+                                            continue;
+                                        }
                                        $photo_url = site_url('assest/upload/adpost_photos/' . $data->adpost_id . '/' . $data->save_name);
 
                            ?>

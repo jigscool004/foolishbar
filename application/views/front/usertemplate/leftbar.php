@@ -32,8 +32,6 @@
  ?>
 <div class="col-md-4 col-sm-12 col-xs-12 leftbar-stick blog-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static;"><div class="user-profile">
-                        
-                        
                         <a href="<?php echo site_url('user/profile') ?>">
                         <img id='profilepic' alt="" src="<?php echo $userProfilePic ?>" class='img-thumbnail span-xs'></a>
                         <form id="change-profile" method='POST'>
@@ -57,13 +55,14 @@
                         </div>
 
                         <ul>
-                           <?php 
+                           <?php
+                                //
                               $sidebarArr = [
                                   'Dashboard' => 'user/dashboard',
                                   'Profile & Setting'  => 'user/profile',
-                                  'My Ads <span class="badge">10</span>' => 'user/myads',
+                                  'My Ads <span class="badge">'.frontDashboardCounter() .'</span>' => 'user/myads',
                                   'Favourites Ads  <span class="badge">20</span>' => 'user/favads',
-                                  'Archives Ads  <span class="badge">5</span>' => 'user/archived_ads',
+                                  'Archives Ads  <span class="badge">'.frontDashboardCounter('archived') .'</span>' => 'user/archived_ads',
                                   'Messages' => 'user/messages',
                                   'Logout' => 'site/logout',
                               ];
