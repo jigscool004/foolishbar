@@ -171,7 +171,7 @@ class Adpost extends CI_Controller {
 			$this->db->where('id',$id);
 			$isUpdate = $this->db->update($this->Adpost_m->tableName,array('status' => $_POST['status']));
 			if ($isUpdate) {
-				echo 'success';	
+				echo 'success';
 			} else {
 				echo 'error';
 			}
@@ -294,6 +294,19 @@ class Adpost extends CI_Controller {
 
 			echo isset($locationDetail->zipcode) ? $locationDetail->zipcode : '';
 		} 
+	}
+
+	public function archiveAds($id) {
+        isFrontLoggedIn();
+        if (isset($_POST['status']) &&  (int)$id > 0) {
+            $this->db->where('id',$id);
+            $isUpdate = $this->db->update($this->Adpost_m->tableName,array('is_archived' => $_POST['status']));
+            if ($isUpdate) {
+                echo 'success';
+            } else {
+                echo 'error';
+            }
+        }
 	}
 
 }

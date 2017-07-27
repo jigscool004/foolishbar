@@ -207,10 +207,22 @@
                                           $status = 0;
                                           $statusTooltip = 'Mark as Sold';
                                         }
+
+                                    if ($adpost_dataArr->is_archived == 0) {
+                                        $archiveLabel = 'Un-Archived';
+                                        $archive = 1;
+                                        $archiveTooltip = 'Mark as Archived';
+                                    } else {
+                                        $archiveLabel = 'Archived';
+                                        $archive = 0;
+                                        $archiveTooltip = 'Mark as Unarchive';
+                                    }
                                     ?>
                                     <a href="<?php echo site_url('adpost/updatestatus/' . $adpost_dataArr->id) ?>"  data-toggle="tooltip" title="<?php echo $statusTooltip ?>" data-fld='<?php echo $status ?>' class='manageStatus' id="manageStatus">
                                         <?php echo $statusLabel; ?>
-                                      </a>
+                                      </a> |
+                                    <a href="<?php echo site_url('adpost/archiveAds/' . $adpost_dataArr->id)?>" data-toggle="tooltip" title="<?php echo $archiveTooltip ?>" data-fld='<?php echo $archive ?>' class='manageStatus' id="manageArchived">
+                                        <?php echo $archiveLabel; ?>
                                     </a>
                                   </li>
                                  <?php endif; ?>
@@ -246,22 +258,7 @@
           slideshow: true,
           sync: "#carousel"
       });
-  /* $('#carousels').flexslider({
-          animation: "slide",
-          controlNav: false,
-          animationLoop: false,
-          slideshow: false,
-          itemWidth: 110,
-          itemMargin: 50,
-          asNavFor: '.single-page-slider'
-      });
-      $('.single-page-slider').flexslider({
-          animation: "slide",
-          controlNav: false,
-          animationLoop: false,
-          slideshow: true,
-          sync: "#carousel"
-      });*/
+
       $(".flex-viewport").each(function() {
           if ($.trim( $(this).html() ).length == 0) {
               $(this).remove();
@@ -271,9 +268,11 @@
           e.preventDefault(); 
           var $this = $(this),
               link = $(this).attr('href'),
-              statusInt = $(this).attr('data-fld');
+              statusInt = $(this).attr('data-fld'),
+              checkType = $(this).attr('id');
           var dataString = {
-              status:statusInt
+              status:statusInt,
+              type:checkType
           };
 
           bootbox.confirm({
@@ -299,19 +298,33 @@
 
                         if (data == 'success') {
                             var newStatus = 0,statusString,tooltip;
-                            if (statusInt == 0) {
-                              newStatus = 1;
-                              statusString = 'SOLD';
-                              tooltip = 'Mark as Unsoled';
-                            } else {
-                              newStatus = 0;
-                              statusString = 'UNSOLED';
-                              tooltip = 'Mark as Soled';
+                            if (checkType == 'manageStatus') {
+                                if (statusInt == 0) {
+                                    newStatus = 1;
+                                    statusString = 'SOLD';
+                                    tooltip = 'Mark as Unsoled';
+                                } else {
+                                    newStatus = 0;
+                                    statusString = 'UNSOLED';
+                                    tooltip = 'Mark as Soled';
+                                }
+                            } else if (checkType == 'manageArchived')  {
+                                if (statusInt == 0) {
+                                    newStatus = 1;
+                                    statusString = 'Archived';
+                                    tooltip = 'Mark as unarchived';
+                                } else if (statusInt == 1) {
+                                    newStatus = 0;
+                                    statusString = 'Unarchived';
+                                    tooltip = 'Mark as archived';
+                                }
                             }
-                            
-                            $this.attr({
+
+                            console.log(statusInt,newStatus,tooltip,checkType,$("#" + checkType));
+                            $("#" + checkType).attr({
                               'data-fld':newStatus,
-                              'title':tooltip
+                              'title':tooltip,
+                              'data-original-title':tooltip
                             }).text(statusString);
                             $.toaster({ priority : 'success',  message : 'Your ad status is ' + statusString}); 
                         } else {

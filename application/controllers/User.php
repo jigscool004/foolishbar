@@ -144,7 +144,7 @@ class User extends CI_Controller {
         $config = array();
         $config["base_url"] = site_url('user/myads');
         $config["total_rows"] = $this->Adpost_m->record_count();
-        $config["per_page"] = 2;
+        $config["per_page"] = 10;
         $config["uri_segment"] = 3;
         $config['full_tag_open']    = "<ul class='pagination'>";
         $config['full_tag_close']   = "</ul>";
