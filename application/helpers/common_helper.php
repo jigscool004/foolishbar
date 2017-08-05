@@ -21,17 +21,20 @@
 
     function objArray($object,$fields,$isSelect = true) {
         if (count($object) > 0 && $fields != "") {
-            $fields = explode(",", $fields);
-            if (count($fields) == 2) {
-
-                $data = ($isSelect == true) ? ['' => '-Select-'] : [];
+           
+            list($index,$value) = explode(",", $fields);
+            //if (count($fieldsArr) == 2) 
+            {
+                //echo $fieldsArr[0] . '-----' . $fieldsArr[1];
+                $data = ($isSelect == true) ? ['' => '-Select-'] :  [];
                 foreach ($object as $key => $obj) {
-                    $data[$obj->$fields[0]] = $obj->$fields[1];
+                    $data[$obj->$index] = $obj->$value;
                 }
                 return $data;
-            } else {
+            } 
+            /*else {
                 return false;
-            }
+            }*/
         } else {
             return false;
         }

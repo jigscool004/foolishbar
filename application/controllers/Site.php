@@ -24,6 +24,7 @@ class Site extends CI_Controller {
         $data['mainContent'] = 'front/home';
         $data['header'] = 'Home';
         $mobileCategory = $this->db->where('status',1)->get('mobile_category')->result();
+        
         $data['mobileCategoryArr'] = objArray($mobileCategory,'id,name');
         $data['mobileCategoryObj'] = $mobileCategory;
         $adpostByCategory = $this->db->select("category,COUNT(id) as category_cnt")->group_by('category')->get('adpost')->result();
