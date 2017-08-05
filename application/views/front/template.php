@@ -186,7 +186,7 @@
         <!-- =-=-=-=-=-=-= JQUERY =-=-=-=-=-=-= -->
         
         <script src="<?php echo site_url('assest/front/js/easing.js'); ?>"></script>
-        <script src="<?php echo site_url('assest/front/js/forest-megamenu.js'); ?>"></script>
+        <!--<script src="<?php /*echo site_url('assest/front/js/forest-megamenu.js'); */?>"></script>-->
         <script src="<?php echo site_url('assest/front/js/jquery.appear.min.js'); ?>"></script>
         <script src="<?php echo site_url('assest/front/js/jquery.countTo.js'); ?>"></script>
         <script src="<?php echo site_url('assest/front/js/jquery.smoothscroll.js'); ?>"></script>
