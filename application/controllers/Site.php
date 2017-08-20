@@ -217,7 +217,24 @@ class Site extends CI_Controller {
     }
 
     public function sendEmail() {
-        $config = Array(
+        $this->load->library("phpmailer_library");
+        $mail = $this->phpmailer_library->load();
+        $mail->IsSMTP(); // we are going to use SMTP
+        $mail->SMTPAuth   = true; // enabled SMTP authentication
+        $mail->SMTPSecure = "ssl";  // prefix for secure protocol to connect to the server
+        $mail->Host       = "smtp.gmail.com";      // setting GMail as our SMTP server
+        $mail->Port       = 465;                   // SMTP port to connect to GMail
+        $mail->Username   = "jigarprajapati496@gmail.com";  // user email address
+        $mail->Password   = "__foo496bar__";            // password in GMail
+        $mail->SetFrom('jigarprajapati496@gmail.com', 'Gujjumobi');  //Who is sending the email
+        $mail->addAddress("jigarprajapati496@gmail.com","Jigar Prajapati (Freelance Developer)");  //email address that receives the response
+        $mail->Subject    = "Gujjumobi Testing";
+        $mail->Body      = "Gujjumobi Testing";
+        //$mail->AltBody    = "Plain text message";
+        var_dump($mail->Send());
+        //$destino = "addressee@example.com"; // Who is addressed the email to
+        //$mail->AddAddress($destino, "John Doe");
+       /* $config = Array(
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_port' => 465,
@@ -240,7 +257,7 @@ class Site extends CI_Controller {
         } else {
             echo "not yet sent. sending failed.";
             show_error($this->email->print_debugger());
-        }
+        }*/
     }
 
     private function paginationConfiguaration($id,$perPage,$segment) {
