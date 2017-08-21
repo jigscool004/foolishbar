@@ -110,7 +110,33 @@
     </div>
     <!-- Main Container End -->
 </section>
+<div class="custom-modal">
+    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header rte">
+                    <h2 class="modal-title">Forgot Your Password ?</h2>
+                </div>
+                <form id="forgetPassword">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input placeholder="Enter Your Username" name="username" class="form-control" type="text">
+                            <label id="username-error" class="error" for="username" style="display: none;"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-theme">Reset My Account</button>
+                        <button type="button" class="btn btn-dark close" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="<?php echo site_url('assest/front/js/jquery.validate.min.js')?>"></script>
+<script src="<?php echo site_url('assest/admin-lte/js/jquery.toaster.js')?>"></script>
 <script>
     jQuery(document).ready(function($) {
         $('#loginform').validate({
@@ -121,6 +147,40 @@
             messages:{
                 'login_username':'Usenrame is required',
                 'login_password':'Password is required',
+            }
+        });
+
+        $("#forgetPassword").validate({
+            rules:{
+                'username':{
+                    required:true,
+                  //  remote:'<?php //echo site_url('site/checkdata?t=forgetPwd')?>'
+                }
+            },
+            messages:{
+                'username':'Usenrame is required',
+            },
+            submitHandler:function(form) {
+                $.ajax({
+                    url:"<?php echo site_url('site/forget_password'); ?>",
+                    data:$("#forgetPassword").serialize(),
+                    type:"POST",
+                    dataType:"json",
+                    cache:false,
+                    success:function(data) {
+                        console.log(data.type);
+                        if (data.type == "error") {
+                            $("#username-error").show().html(data.message);
+                        } else if (data.type == "success") {
+                            $(".close").trigger('click');
+                            $.toaster({ priority : data.type,  message : data.message});
+                        } else {
+                            $.toaster({ priority : data.type,  message : data.message});
+                        }
+                    }
+                });
+                //console.log($("#forgetPassword").serialize());
+                return false;
             }
         });
     });

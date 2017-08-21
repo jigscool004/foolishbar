@@ -133,7 +133,13 @@ class Site extends CI_Controller {
         }
 
         $data = $this->db->select('count(id) as cnt')->get('adpost_user')->row();
-        if (isset($data->cnt) && $data->cnt > 0) {
+        if (isset($_GET['t'],$data->cnt) && $_GET['t'] == 'forgetPwd') {
+            if ($data->cnt == 0) {
+                echo json_encode($type . ' is not available');
+            } else {
+                echo json_encode(' ');
+            }
+        } else if (isset($data->cnt) && $data->cnt > 0) {
             echo json_encode($type . ' is already available');
         }
 
@@ -216,6 +222,63 @@ class Site extends CI_Controller {
         $this->load->view('front/template', $data);
     }
 
+    /**
+     *
+     */
+    public function forget_password() {
+        if (isset($_REQUEST['username']) && $_REQUEST['username'] != '') {
+            $data = $this->db->where('username',$_REQUEST['username'])->get('adpost_user')->row();
+
+            if ($data === null) {
+                echo json_encode(array('type' => 'error', 'message' => 'Username is not available' ));
+            } else {
+                $string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $randomString = substr(str_shuffle($string),0,30);
+                $html = "Hello {$data->username}
+                         Please click on this link and change your password " . site_url('site/changepassword/' . $randomString);
+                $html .= " <br>above link will be expire after day complete <br>Thanks <br>Gujjumobi";
+
+                $this->load->library("phpmailer_library");
+                $mail = $this->phpmailer_library->load();
+                $mail->IsSMTP(); // we are going to use SMTP
+                $mail->SMTPAuth   = true; // enabled SMTP authentication
+                $mail->SMTPSecure = "ssl";  // prefix for secure protocol to connect to the server
+                $mail->Host       = "smtp.gmail.com";      // setting GMail as our SMTP server
+                $mail->Port       = 465;                   // SMTP port to connect to GMail
+                $mail->Username   = "jigarprajapati496@gmail.com";  // user email address
+                $mail->Password   = "__foo496bar__";            // password in GMail
+                $mail->SetFrom('jigarprajapati496@gmail.com', 'Gujjumobi');  //Who is sending the email
+                $mail->addAddress($data->email,$data->name);  //email address that receives the response
+                $mail->Subject    = "Password Recovery";
+                $mail->Body      = $html;
+                //$mail->AltBody    = "Plain text message";
+                if($mail->Send()) {
+                    $pwdArr = [
+                        'pwd_token' => $randomString,
+                        'token_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->db->where('id',$data->id);
+                    $this->db->update('adpost_user',$pwdArr);
+                    echo json_encode(['type' => "success","message" => "Please check your register email address"]);
+                } else {
+                    echo json_encode(['type' => "error","message" => "Something wrong happen please try again"]);
+                }
+            }
+        }
+
+    }
+
+    public function changepassword($id) {
+        if ($id != '') {
+            $date = date("Y-m-d H:i:s");
+            $this->db->where('token_date <= \'DATE_FORMAT('.$date.',"%Y-%m-%d %H:%i:%s")\'');
+            $data = $this->db->where('pwd_token',$id)->get('adpost_user')->row();
+            if (count($data)  > 0 ) {
+
+            }
+        }
+    }
+
     public function sendEmail() {
         $this->load->library("phpmailer_library");
         $mail = $this->phpmailer_library->load();
@@ -231,7 +294,7 @@ class Site extends CI_Controller {
         $mail->Subject    = "Gujjumobi Testing";
         $mail->Body      = "Gujjumobi Testing";
         //$mail->AltBody    = "Plain text message";
-        var_dump($mail->Send());
+        return ($mail->Send());
         //$destino = "addressee@example.com"; // Who is addressed the email to
         //$mail->AddAddress($destino, "John Doe");
        /* $config = Array(
