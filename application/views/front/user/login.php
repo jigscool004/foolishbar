@@ -59,7 +59,7 @@
 
                             <p class="help-block">
                                 <a href="<?php echo site_url('site/signup') ?>">Sign up</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                <a data-target="#myModal" data-toggle="modal">Forgot password?</a>
+                                <a data-target="#myModal" class="forget_pwd" data-toggle="modal">Forgot password?</a>
                             </p>
                         </div>
                         <?php 
@@ -122,13 +122,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Username</label>
-                            <input placeholder="Enter Your Username" name="username" class="form-control" type="text">
+                            <input placeholder="Enter Your Username" id="username" name="username" class="form-control" type="text">
                             <label id="username-error" class="error" for="username" style="display: none;"></label>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-theme">Reset My Account</button>
-                        <button type="button" class="btn btn-dark close" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-dark closeModelBox" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -139,6 +139,11 @@
 <script src="<?php echo site_url('assest/admin-lte/js/jquery.toaster.js')?>"></script>
 <script>
     jQuery(document).ready(function($) {
+        <?php if (isset($_GET['type']) && $_GET['type'] == 'forget_pwd') :?>
+            //window.history.go(-1);
+        window.history.back(-1);
+            $(".forget_pwd").trigger('click');
+        <?php endif;?>
         $('#loginform').validate({
             rules:{
                 'login_username':{required:true},
@@ -168,11 +173,11 @@
                     dataType:"json",
                     cache:false,
                     success:function(data) {
-                        console.log(data.type);
                         if (data.type == "error") {
                             $("#username-error").show().html(data.message);
                         } else if (data.type == "success") {
-                            $(".close").trigger('click');
+                            $(".closeModelBox").trigger('click');
+                            $("#username").val(' ');
                             $.toaster({ priority : data.type,  message : data.message});
                         } else {
                             $.toaster({ priority : data.type,  message : data.message});

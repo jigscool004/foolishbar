@@ -106,3 +106,19 @@
             return count($result);
         }
     }
+
+    function loadEmailSetting() {
+        $ci = & get_instance();
+        $ci->load->library("phpmailer_library");
+        $mail = $ci->phpmailer_library->load();
+        $mail->IsSMTP(); // we are going to use SMTP
+        $mail->SMTPAuth   = true; // enabled SMTP authentication
+        $mail->SMTPSecure = "ssl";  // prefix for secure protocol to connect to the server
+        $mail->Host       = "smtp.gmail.com";      // setting GMail as our SMTP server
+        $mail->Port       = 465;                   // SMTP port to connect to GMail
+        $mail->Username   = "jigarprajapati496@gmail.com";  // user email address
+        $mail->Password   = "krishna$%^rama!!!";            // password in GMail
+        $mail->SetFrom('jigarprajapati496@gmail.com', 'Gujjumobi');  //Who is sending the email
+        $mail->isHtml(true);
+        return $mail;
+    }

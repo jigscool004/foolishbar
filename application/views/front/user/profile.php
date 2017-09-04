@@ -102,6 +102,7 @@
                                        <label>Confirm Password<span class="req  uired">*</span></label>
                                        <input type="password" name="confirm_password" class="form-control margin-bottom-20" value="">
                                        <?php echo form_error('confirm_password','<div class="required">','</div>') ?>
+
                                    </div>
                                </div>
                                <div class="clearfix"></div>

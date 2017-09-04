@@ -8453,3 +8453,22 @@ ul.listingViewIcon li.shortByListingLi ul li a {
     position: realtive;
     width: 100%;
 }
+.shareTip {
+	background: #f4f4f4 none repeat scroll 0 0;
+	border-radius: 50%;
+	color: #b7b7b7;
+	display: block;
+	font-size: 12px;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 2px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	width: 30px;
+	float:left;
+	cursor: pointer;
+}
+.wishlistAdded {
+	color:#f58936
+}

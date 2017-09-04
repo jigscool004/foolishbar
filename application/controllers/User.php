@@ -68,6 +68,15 @@ class User extends CI_Controller {
                 if ($this->db->update($this->tableName,$saveData)) {
                     $this->session->set_flashdata('msg','Password is changed successfully.');
                     $this->session->set_flashdata('btn','success');
+                    $mail = loadEmailSetting();
+                    $mail->addAddress($user_dataArr->email,$user_dataArr->name);  //email address that receives the response
+                    $mail->Subject    = "Password Change Notification";
+                    $dataArr = [
+                        'name' => $user_dataArr->name
+                    ];
+                    $html = $this->load->view('email_templates/change_password',$dataArr,true);
+                    $mail->Body  = $html;
+                    $mail->send();
                 } else {
                     $this->session->set_flashdata('msg','Something wrong happen. Please try again.');
                     $this->session->set_flashdata('btn','danger');

@@ -238,19 +238,15 @@ class Site extends CI_Controller {
                          Please click on this link and change your password " . site_url('site/changepassword/' . $randomString);
                 $html .= " <br>above link will be expire after day complete <br>Thanks <br>Gujjumobi";
 
-                $this->load->library("phpmailer_library");
-                $mail = $this->phpmailer_library->load();
-                $mail->IsSMTP(); // we are going to use SMTP
-                $mail->SMTPAuth   = true; // enabled SMTP authentication
-                $mail->SMTPSecure = "ssl";  // prefix for secure protocol to connect to the server
-                $mail->Host       = "smtp.gmail.com";      // setting GMail as our SMTP server
-                $mail->Port       = 465;                   // SMTP port to connect to GMail
-                $mail->Username   = "jigarprajapati496@gmail.com";  // user email address
-                $mail->Password   = "__foo496bar__";            // password in GMail
-                $mail->SetFrom('jigarprajapati496@gmail.com', 'Gujjumobi');  //Who is sending the email
+                $mail = loadEmailSetting();
                 $mail->addAddress($data->email,$data->name);  //email address that receives the response
                 $mail->Subject    = "Password Recovery";
-                $mail->Body      = $html;
+                $dataArr = [
+                    'url' => site_url('site/recover_password/' . $randomString),
+                    'name' => $data->name
+                ];
+                $html = $this->load->view('email_templates/forget_password',$dataArr,true);
+                $mail->Body  = $html;
                 //$mail->AltBody    = "Plain text message";
                 if($mail->Send()) {
                     $pwdArr = [
@@ -268,18 +264,58 @@ class Site extends CI_Controller {
 
     }
 
-    public function changepassword($id) {
+    public function recover_password($id) {
         if ($id != '') {
             $date = date("Y-m-d H:i:s");
             $this->db->where('token_date <= \'DATE_FORMAT('.$date.',"%Y-%m-%d %H:%i:%s")\'');
-            $data = $this->db->where('pwd_token',$id)->get('adpost_user')->row();
-            if (count($data)  > 0 ) {
-
+            $result = $this->db->where('pwd_token',$id)->get('adpost_user')->row();
+            if (count($result)  > 0 ) {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('password','new password','trim|required');
+                $this->form_validation->set_rules('confirm_password','confirm password','trim|required|matches[password]');
+                if ($this->form_validation->run() == true) {
+                    $pwdArr = array(
+                        'pwd_token' => null,
+                        'token_date' => null,
+                        'password' => $this->generatePassword($this->input->post('password'))
+                    );
+                    $isUpdate = $this->db->update('adpost_user',$pwdArr);
+                    if ($isUpdate) {
+                        redirect('site/recoverpwd_msg/' . $id);
+                        exit;
+                    }
+                }
+                $this->load->helper('form');
+                $data['mainContent'] = 'front/user/recover_password';
+                $data['header'] = 'Recover Password';
+                $data['id'] = $id;
+                $data['type'] = 'pwd_recover';
+                $this->load->view('front/template', $data);
+            } else {
+                $data['mainContent'] = 'front/user/recover_password';
+                $data['header'] = 'Recover Password';
+                $data['id'] = $id;
+                $data['type'] = 'token_expire';
+                $this->load->view('front/template', $data);
             }
         }
     }
 
+    public function recoverpwd_msg($id) {
+        $previous_urlArr = explode('/',$_SERVER['HTTP_REFERER']);
+        if ($id != '' && in_array($id,$previous_urlArr)) {
+            $data['mainContent'] = 'front/user/recover_password';
+            $data['header'] = 'Password has changed';
+            $data['id'] = $id;
+            $data['type'] = 'pwd_msg';
+            $this->load->view('front/template', $data);
+        } else {
+            redirect('site/index'); exit;
+        }
+    }
+
     public function sendEmail() {
+        var_dump(loadEmailSetting()); exit;
         $this->load->library("phpmailer_library");
         $mail = $this->phpmailer_library->load();
         $mail->IsSMTP(); // we are going to use SMTP
@@ -288,13 +324,16 @@ class Site extends CI_Controller {
         $mail->Host       = "smtp.gmail.com";      // setting GMail as our SMTP server
         $mail->Port       = 465;                   // SMTP port to connect to GMail
         $mail->Username   = "jigarprajapati496@gmail.com";  // user email address
-        $mail->Password   = "__foo496bar__";            // password in GMail
+        $mail->Password   = "*******";            // password in GMail
         $mail->SetFrom('jigarprajapati496@gmail.com', 'Gujjumobi');  //Who is sending the email
         $mail->addAddress("jigarprajapati496@gmail.com","Jigar Prajapati (Freelance Developer)");  //email address that receives the response
         $mail->Subject    = "Gujjumobi Testing";
         $mail->Body      = "Gujjumobi Testing";
+
+            $data = [];
+        echo $this->load->view('email_templates/forget_password',$data,true);
         //$mail->AltBody    = "Plain text message";
-        return ($mail->Send());
+       // return ($mail->Send());
         //$destino = "addressee@example.com"; // Who is addressed the email to
         //$mail->AddAddress($destino, "John Doe");
        /* $config = Array(
@@ -323,6 +362,7 @@ class Site extends CI_Controller {
         }*/
     }
 
+
     private function paginationConfiguaration($id,$perPage,$segment) {
         $config = array();
         $config["base_url"] = site_url('site/listing/' . $id);
@@ -344,5 +384,44 @@ class Site extends CI_Controller {
         $config['last_tag_open']    = "<li>";
         $config['last_tagl_close']  = "</li>";
         return $config;
+    }
+
+    public function addWishlist($id) {
+        if ($id != "") {
+            $adPostArr = $this->db->where('id',$id)->get('adpost')->row();
+            if (count($adPostArr) > 0) {
+                $user_id = $this->session->userdata('id');
+                if ($user_id == $adPostArr->adpost_user_id) {
+                    echo json_encode(['type' => 'error','msg' => 'You can not add your own wishlist']);
+                } else {
+                    $dataArr = [
+                        'adpost_id' => $adPostArr->adpost_id,
+                        'ad_user_id' => $user_id,
+                        'created_on' => date('Y-m-d H:i:s'),
+                    ];
+                    $isAdd = $this->db->insert('ad_wishlist',$dataArr);
+                    $insert_id = $this->db->insert_id();
+                    if ($isAdd) {
+                        echo json_encode(['type' => 'success','msg' => 'This Adpost is successfully added in your wishlist','id' => $insert_id]);
+                    } else {
+                        echo json_encode(['type' => 'error','msg' => 'Something wrong Please try again.']);
+                    }
+                }
+            }
+        }
+
+    }
+
+    public function removeWishlist($id) {
+        if ($id != "" && isset($_POST['wishlist_id']) && $_POST['wishlist_id'] > 0) {
+            $this->db->where('id',$_POST['wishlist_id']);
+            $is_delete = $this->db->delete('ad_wishlist');
+            if ($is_delete) {
+                echo json_encode(['type' => 'success','msg' => 'This Adpost is successfully remove from your wishlist']);
+            } else {
+                echo json_encode(['type' => 'error','msg' => 'Something wrong Please try again.']);
+            }
+
+        }
     }
 }
