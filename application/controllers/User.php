@@ -153,32 +153,18 @@ class User extends CI_Controller {
         $this->load->library("pagination");
         $data['mainContent'] = 'front/user/myads';
         $data['isArchived'] = $isArchived;
-        $data['header'] = "My Ads";
-        $config = array();
-        $config["base_url"] = site_url('user/myads');
-        $config["total_rows"] = $this->Adpost_m->record_count();
-        $config["per_page"] = 10;
-        $config["uri_segment"] = 3;
-        $config['full_tag_open']    = "<ul class='pagination'>";
-        $config['full_tag_close']   = "</ul>";
-        $config['num_tag_open']     = '<li>';
-        $config['num_tag_close']    = '</li>';
-        $config['cur_tag_open']     = "<li class='disabled'><li class='active'><a href='#'>";
-        $config['cur_tag_close']    = "<span class='sr-only'></span></a></li>";
-        $config['next_tag_open']    = "<li>";
-        $config['next_tagl_close']  = "</li>";
-        $config['prev_tag_open']    = "<li>";
-        $config['prev_tagl_close']  = "</li>";
-        $config['first_tag_open']   = "<li>";
-        $config['first_tagl_close'] = "</li>";
-        $config['last_tag_open']    = "<li>";
-        $config['last_tagl_close']  = "</li>";
+        $data['header'] = $isArchived ? "My Archived Ads" : "My Ads";
+        $config = paginationConfiguration([
+            'total_item' => $this->Adpost_m->record_count(true),
+            'per_page' => 10,
+            'uri_segment' => 3,
+            'base_url' => site_url('user/myads'),
+        ]);
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data["results"] = $this->Adpost_m->getData($config["per_page"], $page);
+        $data["results"] = $this->Adpost_m->getData($config["per_page"], $page,true);
         $data["links"] = $this->pagination->create_links();
-         /*echo $this->db->last_query();
-        exit;*/
+       //  echo $this->db->last_query();         exit;
         $this->load->view('front/template',$data);
     }
 
@@ -197,8 +183,24 @@ class User extends CI_Controller {
         } else {
             echo json_encode('Currnet Password is required');
         }
-
-        
     }
 
+    public function wishlist() {
+        $this->load->model('Adpost_m');
+        $this->load->library("pagination");
+        $data['mainContent'] = 'front/user/wishlist';
+        $data['header'] = 'Wishlist';
+        $config = paginationConfiguration([
+            'total_item' => $this->Adpost_m->record_count(true),
+            'per_page' => 10,
+            'uri_segment' => 3,
+            'base_url' => site_url('user/favads'),
+        ]);
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data["results"] = $this->Adpost_m->getWishListData($config["per_page"], $page);
+        $data["links"] = $this->pagination->create_links();
+        //  echo $this->db->last_query();         exit;
+        $this->load->view('front/template',$data);
+    }
 }

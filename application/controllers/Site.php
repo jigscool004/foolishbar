@@ -387,7 +387,7 @@ class Site extends CI_Controller {
     }
 
     public function addWishlist($id) {
-        if ($id != "") {
+        if (checkedLoggedinFront() && $id != "") {
             $adPostArr = $this->db->where('id',$id)->get('adpost')->row();
             if (count($adPostArr) > 0) {
                 $user_id = $this->session->userdata('id');
@@ -408,6 +408,8 @@ class Site extends CI_Controller {
                     }
                 }
             }
+        } else {
+            echo json_encode(['type' => 'error','msg' => 'Login required to add wishlist']);
         }
 
     }

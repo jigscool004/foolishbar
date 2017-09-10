@@ -61,7 +61,7 @@
                                   'Dashboard' => 'user/dashboard',
                                   'Profile & Setting'  => 'user/profile',
                                   'My Ads <span class="badge">'.frontDashboardCounter() .'</span>' => 'user/myads',
-                                  'Favourites Ads  <span class="badge">20</span>' => 'user/favads',
+                                  'Favourites Ads  <span class="badge">20</span>' => 'user/wishlist',
                                   'Archives Ads  <span class="badge">'.frontDashboardCounter('archived') .'</span>' => 'user/archived_ads',
                                   'Messages' => 'user/messages',
                                   'Logout' => 'site/logout',

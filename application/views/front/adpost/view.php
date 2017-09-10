@@ -209,7 +209,7 @@
                                     <li>
                                         <div class="pull-right">
                                             <input type="hidden" name="" readonly="readonly" id='wishlistId'
-                                                   value="<?php echo isset($wishList->id) ? $wishList->id : '' ?>">
+                                                   value="<?php echo isset($wishList['id']) ? $wishList['id'] : '' ?>">
                                             <?php
                                             if (isset($wishList) && count($wishList) > 0) {
                                                 ?>
@@ -234,7 +234,7 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>
-                                    <?php if (checkedLoggedinFront()) : ?>
+                                    <?php if (checkedLoggedinFront() && $adpost_dataArr->adpost_user_id == $this->session->userdata('id')) : ?>
                                         <li>
                                             <a href="<?php echo site_url('adpost/upload_photos/' . $adpost_dataArr->id) ?>"
                                                data-toggle="tooltip" title="Upload photos"> <i aria-hidden="true"
@@ -428,7 +428,7 @@
                 cache: false,
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data.type, type, data.id, data.msg);
+
                     if (data.type == 'success') {
                         if (type == 'add') {
                             $this.attr('data-original-title', 'Remove Wishlist').addClass('wishlistAdded');

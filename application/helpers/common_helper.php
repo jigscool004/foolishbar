@@ -122,3 +122,31 @@
         $mail->isHtml(true);
         return $mail;
     }
+
+    function paginationConfiguration($settingArr = array()) {
+	    if (count($settingArr) > 0) {
+            $config = array();
+            $config["base_url"] =  isset($settingArr['base_url']) ? $settingArr['base_url'] : '';
+            $config["total_rows"] = isset($settingArr['total_item']) ? $settingArr['total_item'] : 0;
+            $config["per_page"] = isset($settingArr['perPage']) ? $settingArr['perPage'] : 0;
+            $config["uri_segment"] = isset($settingArr['uri_segment']) ? $settingArr['uri_segment'] : 0;
+            $config['full_tag_open']    = "<ul class='pagination'>";
+            $config['full_tag_close']   = "</ul>";
+            $config['num_tag_open']     = '<li>';
+            $config['num_tag_close']    = '</li>';
+            $config['cur_tag_open']     = "<li class='disabled'><li class='active'><a href='#'>";
+            $config['cur_tag_close']    = "<span class='sr-only'></span></a></li>";
+            $config['next_tag_open']    = "<li>";
+            $config['next_tagl_close']  = "</li>";
+            $config['prev_tag_open']    = "<li>";
+            $config['prev_tagl_close']  = "</li>";
+            $config['first_tag_open']   = "<li>";
+            $config['first_tagl_close'] = "</li>";
+            $config['last_tag_open']    = "<li>";
+            $config['last_tagl_close']  = "</li>";
+            return $config;
+        } else {
+	        return false;
+        }
+
+    }

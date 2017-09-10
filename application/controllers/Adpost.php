@@ -84,13 +84,15 @@ class Adpost extends CI_Controller {
         if (isset($id) && $id != '') {
             $this->load->model('Adpost_m');
             $adpost_dataArr = $this->Adpost_m->getAdDetailByid($id);
-            $wishList = new stdClass();
+            $wishList = array();
             if (checkedLoggedinFront()) {
+
                 $user_id = $this->session->userdata('id');
                 $this->db->where('adpost_id',$id);
                 $this->db->where('ad_user_id',$user_id);
-                $wishList = $this->db->get('ad_wishlist')->row();
+                $wishList = $this->db->get('ad_wishlist')->row_array();
             }
+
             $data['wishList'] = $wishList;
             $data['mainContent'] = 'front/adpost/view';
             $data['header'] = $adpost_dataArr->adtitle;
