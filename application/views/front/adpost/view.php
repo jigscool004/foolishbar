@@ -50,6 +50,7 @@
     .uploadedPhotosContainer {
         min-height: 150px;
     }
+    .table td {border-top:none !important;}
 </style>
 <div class="small-breadcrumb">
     <div class="container">
@@ -173,9 +174,9 @@
                         <!-- Contact info -->
                         <div class="contact white-bg">
                             <!-- Email Button trigger modal -->
-                            <!--  <button data-target=".price-quote" data-toggle="modal" class="btn-block btn-contact contactEmail">Contact Seller Via Email</button> -->
+                              <button data-target=".price-quote" data-toggle="modal" class="btn-block btn-contact contactEmail">Contact Seller Via Email</button>
                             <!-- Email Modal -->
-                            <button data-last="111111X" class="btn-block btn-contact contactPhone number">
+                            <button data-last="<?php echo $adpost_dataArr->adpost_user_mobile; ?>" class="btn-block btn-contact contactPhone number">
                                 +91-<?php echo $adpost_dataArr->adpost_user_mobile; ?></button>
                         </div>
                         <!-- Price info block -->
@@ -206,31 +207,42 @@
                                     <li>Location: <span
                                                 class="color"><?php echo $adpost_dataArr->city_name . " " . $adpost_dataArr->area ?></span>
                                     </li>
-                                    <li>
+                                    <li class="padding-zero">
                                         <div class="pull-right">
-                                            <input type="hidden" name="" readonly="readonly" id='wishlistId'
-                                                   value="<?php echo isset($wishList['id']) ? $wishList['id'] : '' ?>">
-                                            <?php
-                                            if (isset($wishList) && count($wishList) > 0) {
-                                                ?>
-                                                <span class="shareTip wishlistAdded" title=""
-                                                      data-id="<?php echo $adpost_dataArr->id ?>"
-                                                      data-toggle="tooltip"
-                                                      data-original-title="Remove Wishlist" id="wishList">
-                                                  <i class="fa fa-heart"></i>
-                                              </span>
-                                            <?php } else { ?>
-                                                <span class="shareTip" title=""
-                                                      data-toggle="tooltip"
-                                                      data-original-title="Add Wishlist" id="wishList">
-                                                  <i class="fa fa-heart"></i>
-                                              </span>
-                                            <?php } ?>
-                                            <span class="shareTip" id="addClass"  title=""
-                                               data-toggle="tooltip"
-                                               data-original-title="Send Message">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
+                                            <table class="table" style="margin:0px">
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="" readonly="readonly" id='wishlistId'
+                                                               value="<?php echo isset($wishList['id']) ? $wishList['id'] : '' ?>">
+                                                        <?php
+                                                        if (isset($wishList) && count($wishList) > 0) {
+                                                            ?>
+                                                            <span class="shareTip wishlistAdded" title=""
+                                                                  data-id="<?php echo $adpost_dataArr->id ?>"
+                                                                  data-toggle="tooltip"
+                                                                  data-original-title="Remove Wishlist" id="wishList">
+                                                                <i class="fa fa-heart"></i>
+                                                            </span>
+                                                        <?php } else { ?>
+                                                            <span class="shareTip" title=""
+                                                                  data-toggle="tooltip"
+                                                                  data-original-title="Add Wishlist" id="wishList">
+                                                                <i class="fa fa-heart"></i>
+                                                            </span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td>
+                                                        <span class="shareTip" id="addClass"  title=""
+                                                              data-toggle="tooltip"
+                                                              data-original-title="Send Message">
+                                                            <i class="fa fa-envelope"></i>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+
+
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>

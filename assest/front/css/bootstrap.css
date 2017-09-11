@@ -6520,6 +6520,9 @@ button.close {
 .pull-right {
   float: right !important;
 }
+.padding-zero{
+  padding:0px !important;
+}
 .pull-left {
   float: left !important;
 }
