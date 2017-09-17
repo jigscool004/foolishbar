@@ -38,7 +38,7 @@ html[xmlns] .slides{display:block;}
 .flex-direction-nav .flex-prev{left:0px;background-image:url("../images/back.png");width:32px;height:32px;text-align:right;margin-left:20px;}
 #carousel .flex-direction-nav a{top:15% !important;}
 .flex-direction-nav .flex-next{background-image:url("../images/next.png");width:32px;height:32px;right:0px;text-align:right;margin-right:20px;}
-.slide-thumbnail img{max-width:110px !important;margin:0 5px 0 0 !important;border:2px solid #BFBFBF;}
+.slide-thumbnail img{max-width:120px !important;margin:0 5px 0 0 !important;border:2px solid #BFBFBF;height: 120px}
 .slide-thumbnail li{margin-right:13px;cursor:pointer;opacity:0.5;}
 .slide-thumbnail .flex-active-slide{opacity:1;cursor:default;}
 .slide-thumbnail li:hover{opacity:1;}

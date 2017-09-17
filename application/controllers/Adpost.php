@@ -12,7 +12,6 @@ class Adpost extends CI_Controller {
         $this->load->model('Adpost_m');
     }
 
-
     public function index() {
         isFrontLoggedIn();
         $data['header'] = 'Post New Ad';
@@ -60,11 +59,7 @@ class Adpost extends CI_Controller {
                     redirect('user/dashboard');
                     exit;
                 }
-
-
             }
-
-
         }
 
         $this->load->helper('form');
@@ -88,8 +83,8 @@ class Adpost extends CI_Controller {
             if (checkedLoggedinFront()) {
 
                 $user_id = $this->session->userdata('id');
-                $this->db->where('adpost_id',$id);
-                $this->db->where('ad_user_id',$user_id);
+                $this->db->where('adpost_id', $id);
+                $this->db->where('ad_user_id', $user_id);
                 $wishList = $this->db->get('ad_wishlist')->row_array();
             }
 
@@ -100,12 +95,10 @@ class Adpost extends CI_Controller {
             $data['adpost_dataArr'] = $adpost_dataArr;
             $data['photos_dataArr'] = $photosDataArr;
             $this->load->view('front/template', $data);
-
         } else {
             echo '404';
         }
     }
-
 
     private function adpostById($id) {
         return $this->db->where('id', $id)->get('adpost')->row();
@@ -223,7 +216,6 @@ class Adpost extends CI_Controller {
                 $config['max_size'] = 100000;
                 $files = $_FILES;
 
-
                 $count = count($_FILES['photos']['name']);
                 if (!isset($_FILES['photos'])) {
                     echo json_encode(array('error' => array('Please select images')));
@@ -246,6 +238,21 @@ class Adpost extends CI_Controller {
                     if ($this->upload->do_upload('photos') == true) {
                         $uploadData = $this->upload->data();
                         $fileName = $uploadData['file_name'];
+
+
+                        $configer = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $uploadData['full_path'],
+                            'maintain_ratio' => TRUE,
+                            //'create_thumb' => TRUE,
+                            'width' => 400,
+                            'height' => 700,
+                        );
+                        $this->load->library('image_lib');
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($configer);
+                        $this->image_lib->resize();
+                        
                         $saveDataArr = array(
                             'adpost_id' => $id,
                             'document_name' => $fileName,
@@ -265,12 +272,10 @@ class Adpost extends CI_Controller {
                     } else {
                         $data['error'][$i] = $_FILES['photos']['name'] . " : " . $this->upload->display_errors();
                     }
-
                 }
                 echo json_encode($data);
             }
         }
-
     }
 
     public function getLocation() {
@@ -278,9 +283,9 @@ class Adpost extends CI_Controller {
         $city_id = $this->input->get('city_id');
         if (isset($city_id) && $city_id != "") {
             $locationDetail = $this->db->where([
-                'city_id' => $city_id,
-                'status' => 1
-            ])->select('id,area')->get('area')->result();
+                        'city_id' => $city_id,
+                        'status' => 1
+                    ])->select('id,area')->get('area')->result();
             if (count($locationDetail) > 0) {
                 $html = '<option value="">-Select-</option>';
                 foreach ($locationDetail as $key => $location) {
@@ -301,9 +306,9 @@ class Adpost extends CI_Controller {
         $location_id = $this->input->get('location_id');
         if (isset($location_id) && $location_id != "") {
             $locationDetail = $this->db->where([
-                'id' => $location_id,
-                'status' => 1
-            ])->select('zipcode')->get('area')->row();
+                        'id' => $location_id,
+                        'status' => 1
+                    ])->select('zipcode')->get('area')->row();
 
             echo isset($locationDetail->zipcode) ? $locationDetail->zipcode : '';
         }
@@ -311,7 +316,7 @@ class Adpost extends CI_Controller {
 
     public function archiveAds($id) {
         isFrontLoggedIn();
-        if (isset($_POST['status']) && (int)$id > 0) {
+        if (isset($_POST['status']) && (int) $id > 0) {
             $this->db->where('id', $id);
             $isUpdate = $this->db->update($this->Adpost_m->tableName, array('is_archived' => $_POST['status']));
             if ($isUpdate) {

@@ -8,6 +8,7 @@
 
 <script src="<?php echo site_url('assest/front/js/slide.js'); ?>"></script>
 <style>
+    .extraTabTable td{padding-right:0 !important;}
     .row {
         margin-bottom: 10px;
     }
@@ -93,28 +94,31 @@
                         <div class="flexslider single-page-slider">
                             <div class="flex-viewport">
                                 <ul class="slides slide-main">
-                                    <?php foreach ($photos_dataArr as $key => $photo) {
+                                    <?php
+                                    foreach ($photos_dataArr as $key => $photo) {
                                         $activeclass = $key == 0 ? 'flex-active-slide' : '';
                                         ?>
-                                        <li class="<?php echo $activeclass ?>"><img alt=""
-                                                                                    src="<?php echo site_url('assest/upload/adpost_photos/' . $adpost_dataArr->adpost_id . '/' . $photo->save_name); ?>"
-                                                                                    title=""></li>
-                                    <?php } ?>
+                                        <li class="<?php echo $activeclass ?>">
+                                            <img alt="" src="<?php echo site_url('assest/upload/adpost_photos/' . $adpost_dataArr->adpost_id . '/' . $photo->save_name); ?>"
+                                                 title="" style="height:420px"></li>
+<?php } ?>
                                 </ul>
                             </div>
                         </div>
                         <div class="flexslider" id="carousels">
                             <div class="flex-viewport">
                                 <ul class="slides slide-thumbnail">
-                                    <?php foreach ($photos_dataArr as $key => $photo) {
+                                    <?php
+                                    foreach ($photos_dataArr as $key => $photo) {
                                         $activeclass = $key == 0 ? 'flex-active-slide' : '';
+                                        $style = $key == 0 ? 'style="margin-left:10px;width:100px !important;"':'width:100px !important; "';
                                         ?>
-                                        <li class="<?php echo $activeclass; ?>">
+                                        <li class="<?php echo $activeclass; ?>" <?php echo $style?>>
                                             <img alt="" draggable="false"
                                                  src="<?php echo site_url('assest/upload/adpost_photos/' . $adpost_dataArr->adpost_id . '/' . $photo->save_name); ?>"
                                                  title="">
                                         </li>
-                                    <?php } ?>
+<?php } ?>
 
                                 </ul>
                             </div>
@@ -159,7 +163,7 @@
                                     </h3>
                                 </div>
                                 <p>
-                                    <?php echo $adpost_dataArr->ad_desc ?>
+<?php echo $adpost_dataArr->ad_desc ?>
                                 </p>
                             </div>
                             <div class="clearfix"></div>
@@ -174,7 +178,7 @@
                         <!-- Contact info -->
                         <div class="contact white-bg">
                             <!-- Email Button trigger modal -->
-                              <button data-target=".price-quote" data-toggle="modal" class="btn-block btn-contact contactEmail">Contact Seller Via Email</button>
+                            <button data-target=".price-quote" data-toggle="modal" class="btn-block btn-contact contactEmail">Contact Seller Via Email</button>
                             <!-- Email Modal -->
                             <button data-last="<?php echo $adpost_dataArr->adpost_user_mobile; ?>" class="btn-block btn-contact contactPhone number">
                                 +91-<?php echo $adpost_dataArr->adpost_user_mobile; ?></button>
@@ -190,8 +194,8 @@
                                     <img alt="" src="images/users/3.jpg">
                                 </div>
                                 <div class="user-information no-padding col-md-8 col-sm-9 col-xs-8">
-                                 <span class="user-name"><a href="profile.html" class="hover-color">
-                                  <?php echo $adpost_dataArr->adpost_username ?></a></span>
+                                    <span class="user-name"><a href="profile.html" class="hover-color">
+<?php echo $adpost_dataArr->adpost_username ?></a></span>
                                     <div class="item-date">
                                         <span class="ad-pub">Published on: <?php echo $publish_date ?></span><br>
                                     </div>
@@ -202,10 +206,10 @@
                                 <ul>
                                     <li>Ad Id: <span class="color"><?php echo $adpost_dataArr->adpost_id ?></span></li>
                                     <li>Categories: <span
-                                                class="color"><?php echo $adpost_dataArr->category_name; ?></span></li>
+                                            class="color"><?php echo $adpost_dataArr->category_name; ?></span></li>
                                     <li>Visits: <span class="color">9</span></li>
                                     <li>Location: <span
-                                                class="color"><?php echo $adpost_dataArr->city_name . " " . $adpost_dataArr->area ?></span>
+                                            class="color"><?php echo $adpost_dataArr->city_name . " " . $adpost_dataArr->area ?></span>
                                     </li>
                                     <li class="padding-zero">
                                         <div class="pull-right">
@@ -214,22 +218,22 @@
                                                     <td>
                                                         <input type="hidden" name="" readonly="readonly" id='wishlistId'
                                                                value="<?php echo isset($wishList['id']) ? $wishList['id'] : '' ?>">
-                                                        <?php
-                                                        if (isset($wishList) && count($wishList) > 0) {
-                                                            ?>
+                                                               <?php
+                                                               if (isset($wishList) && count($wishList) > 0) {
+                                                                   ?>
                                                             <span class="shareTip wishlistAdded" title=""
                                                                   data-id="<?php echo $adpost_dataArr->id ?>"
                                                                   data-toggle="tooltip"
                                                                   data-original-title="Remove Wishlist" id="wishList">
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
-                                                        <?php } else { ?>
+<?php } else { ?>
                                                             <span class="shareTip" title=""
                                                                   data-toggle="tooltip"
                                                                   data-original-title="Add Wishlist" id="wishList">
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
-                                                        <?php } ?>
+<?php } ?>
                                                     </td>
                                                     <td>
                                                         <span class="shareTip" id="addClass"  title=""
@@ -240,55 +244,52 @@
                                                     </td>
                                                 </tr>
                                             </table>
-
-
-
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>
-                                    <?php if (checkedLoggedinFront() && $adpost_dataArr->adpost_user_id == $this->session->userdata('id')) : ?>
+                                        <?php if (checkedLoggedinFront() && $adpost_dataArr->adpost_user_id == $this->session->userdata('id')) : ?>
                                         <li>
-                                            <a href="<?php echo site_url('adpost/upload_photos/' . $adpost_dataArr->id) ?>"
-                                               data-toggle="tooltip" title="Upload photos"> <i aria-hidden="true"
-                                                                                               class="glyphicon glyphicon-camera"></i>
-                                            </a>
-                                            <a href="<?php echo site_url('adpost/edit/' . $adpost_dataArr->id) ?>"
-                                               data-toggle="tooltip" title="Edit">
-                                                <i aria-hidden="true" class="glyphicon glyphicon-edit"></i></a>
-                                            <?php
-                                            if ($adpost_dataArr->status == 0) {
-                                                $statusLabel = 'SOLD';
-                                                $status = 1;
-                                                $statusTooltip = 'Mark as Unsoled';
-                                            } else {
-                                                $statusLabel = 'UNSOLED';
-                                                $status = 0;
-                                                $statusTooltip = 'Mark as Sold';
-                                            }
-
-                                            if ($adpost_dataArr->is_archived == 0) {
-                                                $archiveLabel = 'Un-Archived';
-                                                $archive = 1;
-                                                $archiveTooltip = 'Mark as Archived';
-                                            } else {
-                                                $archiveLabel = 'Archived';
-                                                $archive = 0;
-                                                $archiveTooltip = 'Mark as Unarchive';
-                                            }
-                                            ?>
-                                            <a href="<?php echo site_url('adpost/updatestatus/' . $adpost_dataArr->id) ?>"
-                                               data-toggle="tooltip" title="<?php echo $statusTooltip ?>"
-                                               data-fld='<?php echo $status ?>' class='manageStatus' id="manageStatus">
-                                                <?php echo $statusLabel; ?>
-                                            </a> |
-                                            <a href="<?php echo site_url('adpost/archiveAds/' . $adpost_dataArr->id) ?>"
-                                               data-toggle="tooltip" title="<?php echo $archiveTooltip ?>"
-                                               data-fld='<?php echo $archive ?>' class='manageStatus'
-                                               id="manageArchived">
-                                                <?php echo $archiveLabel; ?>
-                                            </a>
+                                            <table class="table extraTabTable pull-right" style="margin:0px">
+                                                <tr>
+                                                    <td>
+                                                        <a href="<?php echo site_url('adpost/upload_photos/' . $adpost_dataArr->id) ?>" data-toggle="tooltip" title="Upload photos"> <i aria-hidden="true" class="glyphicon glyphicon-camera"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="<?php echo site_url('adpost/edit/' . $adpost_dataArr->id) ?>" data-toggle="tooltip" title="Edit"><i aria-hidden="true" class="glyphicon glyphicon-edit"></i></a>
+                                                    </td>
+                                                    <td>
+                                                      <?php
+                                                        if ($adpost_dataArr->status == 0) {
+                                                            $statusLabel = '<i aria-hidden="true" class="glyphicon glyphicon-ok-circle"></i>';
+                                                            $status = 1;
+                                                            $statusTooltip = 'Mark as Unsoled';
+                                                        } else {
+                                                            $statusLabel = '<i aria-hidden="true" class="glyphicon glyphicon-ban-circle"></i>';
+                                                            $status = 0;
+                                                            $statusTooltip = 'Mark as Sold';
+                                                        }
+                                                        ?>  
+                                                        <a href="<?php echo site_url('adpost/updatestatus/' . $adpost_dataArr->id) ?>" data-toggle="tooltip" title="<?php echo $statusTooltip ?>" data-fld='<?php echo $status ?>' class='manageStatus' id="manageStatus"> <?php echo $statusLabel; ?></a>
+                                                    </td>
+                                                    <td>
+                                                       <?php
+                                                            if ($adpost_dataArr->is_archived == 0) {
+                                                                $archiveLabel = '<i aria-hidden="true" class="glyphicon glyphicon-folder-open"></i>';
+                                                                $archive = 1;
+                                                                $archiveTooltip = 'Mark as Archived';
+                                                            } else {
+                                                                $archiveLabel = '<i aria-hidden="true" class="glyphicon glyphicon-folder-close"></i>';
+                                                                $archive = 0;
+                                                                $archiveTooltip = 'Mark as Unarchive';
+                                                            }
+                                                            ?> 
+                                                        <a href="<?php echo site_url('adpost/archiveAds/' . $adpost_dataArr->id) ?>" data-toggle="tooltip" title="<?php echo $archiveTooltip ?>" data-fld='<?php echo $archive ?>' class='manageStatus' id="manageArchived"> <?php echo $archiveLabel; ?></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div class="clearfix"></div>
                                         </li>
-                                    <?php endif; ?>
+<?php endif; ?>
                                 </ul>
                             </div>
                         </div>
@@ -310,7 +311,7 @@
         <div class="popup-head-left pull-left"><img src="" alt="iamgurdeeposahan"></div>
         <div class="popup-head-right pull-right">
             <button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button"><i
-                        class="glyphicon glyphicon-off"></i></button>
+                    class="glyphicon glyphicon-off"></i></button>
         </div>
     </div>
     <div class="popup-messages">
@@ -338,9 +339,9 @@
                     <span class="direct-chat-timestamp pull-right">3.36 PM</span>
                 </div>
                 <div class="direct-chat-info clearfix">
-						<span class="direct-chat-img-reply-small pull-left">
+                    <span class="direct-chat-img-reply-small pull-left">
 
-						</span>
+                    </span>
                     <span class="direct-chat-reply-name">Singh</span>
                 </div>
                 <!-- /.direct-chat-text -->
@@ -399,7 +400,7 @@
             controlNav: false,
             animationLoop: false,
             slideshow: false,
-            itemWidth: 110,
+            itemWidth: 100,
             itemMargin: 50,
             asNavFor: '.single-page-slider'
         });
@@ -420,14 +421,14 @@
 
         $("#wishList").on('click', function () {
             var link = '', $this = $(this),
-                adpost_id = $this.attr('data-id'),
-                type = '';
+                    adpost_id = $this.attr('data-id'),
+                    type = '';
 
             if ($this.hasClass('wishlistAdded') == true) {
-                link = '<?php echo site_url('site/removeWishlist/' . $adpost_dataArr->id);?>';
+                link = '<?php echo site_url('site/removeWishlist/' . $adpost_dataArr->id); ?>';
                 type = 'remove';
             } else {
-                link = '<?php echo site_url('site/addWishlist/' . $adpost_dataArr->id);?>';
+                link = '<?php echo site_url('site/addWishlist/' . $adpost_dataArr->id); ?>';
                 type = 'add';
             }
 
@@ -463,9 +464,9 @@
         $('.manageStatus').on('click', function (e) {
             e.preventDefault();
             var $this = $(this),
-                link = $(this).attr('href'),
-                statusInt = $(this).attr('data-fld'),
-                checkType = $(this).attr('id');
+                    link = $(this).attr('href'),
+                    statusInt = $(this).attr('data-fld'),
+                    checkType = $(this).attr('id');
             var dataString = {
                 status: statusInt,
                 type: checkType
@@ -493,36 +494,40 @@
                             success: function (data) {
 
                                 if (data == 'success') {
-                                    var newStatus = 0, statusString, tooltip;
+                                    var newStatus = 0, statusString, tooltip,statusString1;
                                     if (checkType == 'manageStatus') {
                                         if (statusInt == 0) {
                                             newStatus = 1;
-                                            statusString = 'SOLD';
+                                            statusString = '<i aria-hidden="true" class="glyphicon glyphicon-ok-circle"></i>';
+                                            statusString1 = "SOLD";
                                             tooltip = 'Mark as Unsoled';
                                         } else {
                                             newStatus = 0;
-                                            statusString = 'UNSOLED';
+                                            statusString = '<i aria-hidden="true" class="glyphicon glyphicon-ban-circle"></i>';
                                             tooltip = 'Mark as Soled';
+                                            statusString1 = "UNSOLD";
                                         }
                                     } else if (checkType == 'manageArchived') {
                                         if (statusInt == 0) {
                                             newStatus = 1;
-                                            statusString = 'Archived';
+                                            statusString = '<i aria-hidden="true" class="glyphicon glyphicon-folder-open"></i>';
+                                            statusString1 = "Archived";
                                             tooltip = 'Mark as unarchived';
                                         } else if (statusInt == 1) {
                                             newStatus = 0;
-                                            statusString = 'Unarchived';
+                                            statusString = '<i aria-hidden="true" class="glyphicon glyphicon-folder-close"></i>';
+                                            statusString1 = "Unarchived";
                                             tooltip = 'Mark as archived';
                                         }
                                     }
 
-                                    console.log(statusInt, newStatus, tooltip, checkType, $("#" + checkType));
+                                   // console.log(statusInt, newStatus, tooltip, checkType, $("#" + checkType));
                                     $("#" + checkType).attr({
                                         'data-fld': newStatus,
                                         'title': tooltip,
                                         'data-original-title': tooltip
-                                    }).text(statusString);
-                                    $.toaster({priority: 'success', message: 'Your ad status is ' + statusString});
+                                    }).html(statusString);
+                                    $.toaster({priority: 'success', message: 'Your ad status is ' + statusString1});
                                 } else {
                                     $.toaster({
                                         priority: 'danger',
