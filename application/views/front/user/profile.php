@@ -1,4 +1,14 @@
 <script src="<?php echo site_url('assest/admin-lte/js/jquery.toaster.js')?>"></script>
+<div class="small-breadcrumb">
+         <div class="container">
+            <div class=" breadcrumb-link">
+               <ul>
+                   <li><a href="<?php echo site_url('');?>">Home</a></li>
+                  <li><a href="#" class="active">Profile & Settings</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
 <div class="main-content-area clearfix">
          <!-- =-=-=-=-=-=-= Latest Ads =-=-=-=-=-=-= -->
          <section class="section-padding gray">

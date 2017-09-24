@@ -19,6 +19,7 @@
     cursor: inherit;
     display: block;
 }
+#profilepic{width: 360px;height: 350px;}
 </style>
 <?php 
    $data = getUserDetails();

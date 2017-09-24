@@ -145,7 +145,7 @@
                                     <span><strong>Date</strong> :</span> <?php echo $publish_date ?>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-xs-12 no-padding">
-                                    <span><strong>Price</strong> :</span> <?php echo $adpost_dataArr->price ?>
+                                    <span><strong>Price</strong> :</span> <?php echo number_format($adpost_dataArr->price,2) ?>
                                 </div>
                             </div>
                             <!-- Short Features  -->
@@ -185,7 +185,7 @@
                         </div>
                         <!-- Price info block -->
                         <div class="ad-listing-price">
-                            <p>Rs. <?php echo $adpost_dataArr->price; ?></p>
+                            <p>Rs. <?php echo number_format($adpost_dataArr->price,2); ?></p>
                         </div>
                         <!-- User Info -->
                         <div class="white-bg user-contact-info">

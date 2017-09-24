@@ -2,9 +2,8 @@
          <div class="container">
             <div class=" breadcrumb-link">
                <ul>
-                  <li><a href="index-2.html">Home</a></li>
-                  <li><a href="#">Pages</a></li>
-                  <li><a href="#" class="active">Profile</a></li>
+                   <li><a href="<?php echo site_url('');?>">Home</a></li>
+                  <li><a href="#" class="active">Dashboard</a></li>
                </ul>
             </div>
          </div>

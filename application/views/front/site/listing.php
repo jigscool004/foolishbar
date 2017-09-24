@@ -117,7 +117,22 @@
                                                                 </ul>
                                                                 <!-- Ad Description-->
                                                                 <div class="ad-details">
-                                                                    <p><?php echo $result->ad_desc ?></p>
+                                                                    <?php $adDescription = $result->ad_desc; 
+                                                                        if (strlen($adDescription) > 500) {
+                                                                    ?>
+                                                                    <p id="view_less_<?php echo $result->id;?>" >
+                                                                        <?php echo substr($adDescription,0,500) . "....";?>
+                                                                        <span class="collapseBtn view_more" data-id="view_less" id="<?php echo $result->id;?>">View More</span>
+                                                                    </p>
+                                                                    <p id="view_more_<?php echo $result->id;?>" style="display:none;" >
+                                                                        <?php echo substr($adDescription,0,500) . "....";?>
+                                                                        <span class="collapseBtn view_less" data-id="view_more" id="<?php echo $result->id;?>">View Less</span>
+                                                                    </p>
+                                                                    
+                                                                        <?php } else {
+                                                                            echo '<p>' . $adDescription . '</p>';
+                                                                        } ?>
+                                                                        
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3 col-xs-12 col-sm-12">
@@ -134,7 +149,7 @@
                                                                 </div>
                                                                 <!-- Price -->
                                                                 <div class="price">
-                                                                    <span>Rs.<?php echo $result->price; ?></span></div>
+                                                                    <span>Rs.<?php echo number_format($result->price,2); ?></span></div>
                                                                 <!-- Ad View Button -->
                                                                 <a href="<?php echo site_url('adpost/view/' . $result->id) ?>">
                                                                     <button class="btn btn-block btn-success"><i
@@ -169,3 +184,6 @@
         </div>
     </section>
 </div>
+<script type="text/javascript">
+    
+</script>

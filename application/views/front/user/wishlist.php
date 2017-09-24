@@ -3,6 +3,16 @@
     .category-grid-box-1 .image img{height: 350px;}
     .closeButton{position:absolute;right:0}
 </style>
+<div class="small-breadcrumb">
+         <div class="container">
+            <div class=" breadcrumb-link">
+               <ul>
+                   <li><a href="<?php echo site_url('');?>">Home</a></li>
+                  <li><a href="#" class="active">Favourites Ads</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
 <div class="main-content-area clearfix">
     <!-- =-=-=-=-=-=-= Latest Ads =-=-=-=-=-=-= -->
     <section class="section-padding gray">

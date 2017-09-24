@@ -2,6 +2,21 @@
 <style>
    .category-grid-box-1 .image img{height: 350px;}
 </style>
+<div class="small-breadcrumb">
+         <div class="container">
+            <div class=" breadcrumb-link">
+               <ul>
+                   <li><a href="<?php echo site_url('');?>">Home</a></li>
+                   <?php if ($isArchived == 1) : ?>
+                    <li><a href="#" class="active">Archived Ads</a></li>
+                   <?php else : ?>
+                    <li><a href="#" class="active">My Ads</a></li>
+                   <?php endif; ?>
+                  
+               </ul>
+            </div>
+         </div>
+      </div>
 <div class="main-content-area clearfix">
          <!-- =-=-=-=-=-=-= Latest Ads =-=-=-=-=-=-= -->
          <section class="section-padding gray">
