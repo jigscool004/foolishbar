@@ -3649,7 +3649,7 @@ ul.add_info li i {
 }
 span.required {
     color: #f00;
-    font-size: 18px;
+/*    font-size: 18px;*/
     /*line-height: 10px;*/
 }
 label {
@@ -4850,8 +4850,8 @@ ul.category-list-data li:hover a span {
     padding: 0 30px;
 }
 .custom-modal .modal-header {
-    border: 0 none;
-    padding: 30px;
+/*    border: 0 none;*/
+    padding: 10px 20px;
     position: relative;
     box-shadow: none;
 }
@@ -4862,13 +4862,14 @@ ul.category-list-data li:hover a span {
 .custom-modal .modal-header .close {
     margin: 0;
     outline: 0 none;
-    position: absolute;
+    
     right: 30px;
     top: 40px;
+    float:right;
 }
 .custom-modal .modal-footer {
-    border: 0 none;
-    padding: 10px 30px 30px;
+/*    border: 0 none;*/
+    padding: 10px 10px 10px;
 }
 .accordion {
     list-style: outside none none;
@@ -5569,8 +5570,8 @@ ul.category-list-data li:hover a span {
 }
 .required {
     color: #ed1c24;
-    float: right;
-    margin-left: 5px;	
+/*    float: right;*/
+/*    margin-left: 5px;	*/
 }
 /* =-=-=-=-=-=-=  Search Layout  =-=-=-=-=-=-= */
 

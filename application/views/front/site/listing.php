@@ -6,6 +6,7 @@
  * Time: 6:49 AM
  */
 ?>
+<script src="<?php echo site_url('assest/admin-lte/js/jquery.toaster.js') ?>"></script>
 <div id="search-section">
     <div class="container">
         <form action="<?php echo site_url(); ?>" id="searchForm">
@@ -90,9 +91,8 @@
                                                                 <!-- Info Icons -->
                                                                 <ul class="additional-info pull-right">
                                                                     <li>
-                                                                        <a class="fa fa-envelope" href="#" title=""
-                                                                           data-toggle="tooltip"
-                                                                           data-original-title="Send Message"></a>
+                                                                        
+                                                                        <a class="shareTip bootstrapModel" href="#myModal<?php echo $result->id?>" id="<?php echo $result->id?>"  title="Send Message" data-toggle="tooltip" data-original-title="Send Message"><i class="fa fa-envelope"></i></a>
                                                                     </li>
                                                                     <!--<li>
                                                                         <a class="fa fa-phone" href="#" title=""
@@ -100,9 +100,14 @@
                                                                            data-original-title="+92-4567-123"></a>
                                                                     </li>-->
                                                                     <li>
-                                                                        <a class="fa fa-heart" href="#" title=""
-                                                                           data-toggle="tooltip"
-                                                                           data-original-title="Add Wishlist"></a>
+                                                                        <?php  if (in_array($result->id,$wishListArr)) {
+                                                                                $wishListArrFlip = array_flip($wishListArr);
+                                                                                $wishListId = isset($wishListArrFlip[$result->id]) ? $wishListArrFlip[$result->id] : '';
+                                                                         ?>
+                                                                        <span class="shareTip wishlistAdded wishlistClass" title="" data-id="<?php echo $result->id ?>" data-toggle="tooltip" data-original-title="Remove Wishlist" id="wishList" data-wishlistid='<?php echo $wishListId;?>'> <i class="fa fa-heart"></i> </span>
+                                                                        <?php } else { ?>
+                                                                        <span class="shareTip wishlistClass" title="" data-toggle="tooltip" data-original-title="Add Wishlist" id="wishList" data-id="<?php echo $result->id ?>"><i class="fa fa-heart"></i></span>
+                                                                        <?php } ?>
                                                                     </li>
                                                                 </ul>
                                                                 <!-- Ad Meta Info -->
@@ -118,25 +123,31 @@
                                                                 <!-- Ad Description-->
                                                                 <div class="ad-details">
                                                                     <?php $adDescription = $result->ad_desc; 
-                                                                        if (strlen($adDescription) > 500) {
+                                                                        if (strlen($adDescription) > 300) {
                                                                     ?>
                                                                     <p id="view_less_<?php echo $result->id;?>" >
-                                                                        <?php echo substr($adDescription,0,500) . "....";?>
+                                                                        <?php echo substr($adDescription,0,300) . "....";?>
                                                                         <span class="collapseBtn view_more" data-id="view_less" id="<?php echo $result->id;?>">View More</span>
                                                                     </p>
                                                                     <p id="view_more_<?php echo $result->id;?>" style="display:none;" >
-                                                                        <?php echo substr($adDescription,0,500) . "....";?>
+                                                                        <?php echo $adDescription;?>
                                                                         <span class="collapseBtn view_less" data-id="view_more" id="<?php echo $result->id;?>">View Less</span>
                                                                     </p>
                                                                     
                                                                         <?php } else {
                                                                             echo '<p>' . $adDescription . '</p>';
-                                                                        } ?>
+                                                                        }
+                                                                        ?>
                                                                         
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3 col-xs-12 col-sm-12">
                                                                 <!-- Ad Stats -->
+                                                                <div class="short-info">
+                                                                    <div class="ad-stats hidden-xs">
+                                                                        <span>User : </span><?php  echo $result->adpost_username ?>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="short-info">
                                                                     <div class="ad-stats hidden-xs">
                                                                         <span>Category : </span><?php echo $result->category_name ?>
@@ -170,9 +181,19 @@
                                     }
                                     echo '</ul>';
                                 } else {
-                                    echo 'no result found';
-                                }
                                 ?>
+                                  <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <div class="filter-brudcrums">
+                                        <span class="pull-right">Showing 
+                                            <span class="showed"><?php echo 0 . ' - ' . 0; ?></span> of
+                                            <span class="showed"><?php echo 0; ?></span> results
+                                        </span>
+                                    </div>
+                                </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="height:100px;">
+                                    <span>No Result found.</span>    
+                                </div>         
+                                <?php  } ?>
                             </div>
                         </div>
                         <div class="col-md-12 col-xs-12 col-sm-12">
@@ -183,7 +204,71 @@
             </div>
         </div>
     </section>
+   
+    
 </div>
 <script type="text/javascript">
-    
+    $(document).ready(function(){
+        //$("body").load('<?php echo site_url('')?>');
+         $(".bootstrapModel").on('click',function() {
+             var $this = $(this),
+                 id = $this.attr('id');
+            $("body").append('<div class="custom-modal"><div class="modal fade" id="myModal'+id+'" data-backdrop="static" data-keyboard="false" role="dialog"></div></div>'); 
+            $("#myModal" + id).load('<?php echo site_url('adpost/addMessage');?>/' + id);
+             $('#myModal'  + id).modal('show');
+         });
+        
+        $(".collapseBtn").on("click",function(){
+            var $this = $(this),
+                id = $this.attr("id"),
+                closeDiv = $this.attr("data-id"),
+                openDiv = (closeDiv == 'view_less') ? 'view_more' : 'view_less';
+              console.log($("#" + openDiv + "_" + id),$("#" + closeDiv + "_" + id));
+              $("#" + openDiv + "_" + id).show();
+
+              $("#" + closeDiv + "_" + id).hide();
+          });
+          
+          $(".wishlistClass").on('click', function () {
+            var link = '', $this = $(this),
+                    adpost_id = $this.attr('data-id'),
+                    type = '',
+                    wishlistid = $this.attr('data-wishlistid');
+ 
+           if ($this.hasClass('wishlistAdded') == true) {
+                link = '<?php echo site_url('site/removeWishlist/'); ?>';
+                type = 'remove';
+            } else {
+                link = '<?php echo site_url('site/addWishlist/'); ?>';
+                type = 'add';
+            }
+
+            $.ajax({
+                url: link + "/"+ adpost_id,
+                type: 'POST',
+                data: {
+                    "wishlist_id": wishlistid
+                },
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data.type == 'success') {
+                        if (type == 'add') {
+                            $this.attr('data-original-title', 'Remove Wishlist').addClass('wishlistAdded');
+                           // $('#wishlistId').val(data.id);
+                           $this.attr('data-wishlistid',data.id);
+                        } else if (type == 'remove') {
+                           // $('#wishlistId').val(' ');
+                            $this.attr('data-original-title', 'Add Wishlist').removeClass('wishlistAdded');
+                        }
+
+                        $.toaster({priority: 'success', message: data.msg});
+                    } else if (data.type == 'error') {
+                        $.toaster({priority: 'danger', message: data.msg});
+                    }
+                }
+            });
+        });
+    })
 </script>

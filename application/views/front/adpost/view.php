@@ -227,13 +227,13 @@
                                                                   data-original-title="Remove Wishlist" id="wishList">
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
-<?php } else { ?>
+                                                            <?php } else { ?>
                                                             <span class="shareTip" title=""
                                                                   data-toggle="tooltip"
                                                                   data-original-title="Add Wishlist" id="wishList">
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
-<?php } ?>
+                                                            <?php } ?>
                                                     </td>
                                                     <td>
                                                         <span class="shareTip" id="addClass"  title=""

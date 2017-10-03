@@ -204,6 +204,16 @@ class Site extends CI_Controller {
             $this->db->where('t.category',$id);
         }
         $serachResult = $this->Site_m->getSearchDetail($id,$config["per_page"], $page);
+        
+        $wishListArr = array();
+        if (checkedLoggedinFront()) {
+            $user_id = $this->session->userdata('id');
+            $this->db->where('ad_user_id', $user_id);
+            $this->db->select('adpost_id,id');
+            $wishList = $this->db->get('ad_wishlist')->result();
+            foreach($wishList as $key => $wl) {$wishListArr[$wl->id] = $wl->adpost_id;}
+        }
+        
         //lastQuery(); exit;
         $data['x'] = (int)$page + 1;
         if (($page + $perPage) >  $totalCount) {
@@ -216,6 +226,7 @@ class Site extends CI_Controller {
         $data['searchResult'] = $serachResult;
         $data['totalCount'] = $totalCount;
         $data['header'] = 'Search';
+        $data['wishListArr'] = $wishListArr;
         $data['mainContent'] = 'front/site/listing';
         $mobileCategory = $this->db->where('status',1)->get('mobile_category')->result();
         $data['mobileCategoryArr'] = objArray($mobileCategory,'id,name');

@@ -81,7 +81,6 @@ class Adpost extends CI_Controller {
             $adpost_dataArr = $this->Adpost_m->getAdDetailByid($id);
             $wishList = array();
             if (checkedLoggedinFront()) {
-
                 $user_id = $this->session->userdata('id');
                 $this->db->where('adpost_id', $id);
                 $this->db->where('ad_user_id', $user_id);
@@ -275,6 +274,48 @@ class Adpost extends CI_Controller {
                 }
                 echo json_encode($data);
             }
+        }
+    }
+    
+    public function addMessage($id) {
+        if (isset($id) && $id != '') {
+            $this->load->model('Adpost_m');
+            $adpost_dataArr = $this->Adpost_m->getAdDetailByid($id);
+            $data['adpost_dataArr'] = $adpost_dataArr;
+            $data['id'] = $id;
+            if (isset($_POST['subject'])) {
+                
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('subject', 'subject', 'trim|required');
+                $this->form_validation->set_rules('message_body', 'message', 'trim|required');
+                 if ($this->form_validation->run() == false) {
+                    $data['error'] = 1;
+                    echo $this->load->view('front/message/_sendMessage', $data, true);
+                    exit;
+                } else {
+                     $saveData = array(
+                        'subject' => $this->input->post('subject'),
+                        'message_body' => $this->input->post('message_body'),
+                        'adpost_user_id' => $this->session->userdata('id'),
+                        'adpost_id' => $id,
+                        'created_on' => date('Y-m-d H:i:s')
+                    );
+
+                    $isSaved = $this->db->insert('ad_message', $saveData);
+                    if ($isSaved) {
+                        echo 1;
+                        exit;
+                    } else {
+                        echo 0;
+                        exit;
+                    }
+                }
+            }
+            
+            $data['adpost_dataArr'] = $adpost_dataArr;
+            $data['id'] = $id;
+            $data['error'] = '';
+            $this->load->view('front/message/add',$data);
         }
     }
 
