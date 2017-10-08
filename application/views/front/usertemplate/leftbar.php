@@ -57,14 +57,18 @@
 
                         <ul>
                            <?php
-                                //
+                              $this->db->where('adpost_user_id != ',$this->session->userdata('id'));
+                              $this->db->where('is_read',0);
+                              $this->db->where('is_deleted',0);
+                              $this->db->where('is_archived',0);
+                              $counter = $this->db->select('COUNT(id) AS cnt')->get('ad_message')->row();
                               $sidebarArr = [
                                   'Dashboard' => 'user/dashboard',
                                   'Profile & Setting'  => 'user/profile',
                                   'My Ads <span class="badge">'.frontDashboardCounter() .'</span>' => 'user/myads',
                                   'Favourites Ads  <span class="badge">'.frontDashboardCounter('wishlist') .'</span>' => 'user/wishlist',
                                   'Archives Ads  <span class="badge">'.frontDashboardCounter('archived') .'</span>' => 'user/archived_ads',
-                                  'Messages' => 'user/messages',
+                                  'Messages <span class="badge">'. ( isset($counter->cnt) ? $counter->cnt : 0 ) .'</span>' => 'user/messages',
                                   'Logout' => 'site/logout',
                               ];
 

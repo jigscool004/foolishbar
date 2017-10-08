@@ -8,7 +8,7 @@
     width: 100%;
   }
 </style>
-<section class="main-search parallex ">
+<section class="main-search parallex " style="height:auto">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -75,7 +75,7 @@
         </section>
     </div>
 </section>
-<div class="clearfix"></div>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $("#searchForm").on("click",function(e){
@@ -93,3 +93,4 @@
         });
     });
 </script>
+<div class="clearfix"></div>

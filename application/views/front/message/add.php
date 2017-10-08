@@ -22,15 +22,15 @@
  } else { ?>
 <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-<!--            <a class="close" data-dismiss="modal">×</a>-->
-<!--            <h3 class="modal-title">Message</h3>-->
-        </div>
-        <div class="modal-body">
+<!--        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>
+            <h3 class="modal-title">Message</h3>
+        </div>-->
+        <div class="modal-body" style="padding: 20px 10px;">
             Login required to send message to buyer
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-dark closeModelBox" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger closeModelBox" data-dismiss="modal">Cancel</button>
         </div>
     </div>
 </div>
