@@ -206,19 +206,27 @@ class User extends CI_Controller {
     
     public function messages() {
         $this->load->library("pagination");
-        $data['mainContent'] = 'front/user/message';
+        $this->load->model('Message_m');
+        $data['mainContent'] = 'front/message/inbox';
         $data['header'] = 'Message';
-//        $config = paginationConfiguration([
-//            'total_item' => $this->Adpost_m->record_count(true),
-//            'per_page' => 10,
-//            'uri_segment' => 3,
-//            'base_url' => site_url('user/favads'),
-//        ]);
-//        $this->pagination->initialize($config);
-//        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-//        $data["results"] = $this->Adpost_m->getWishListData($config["per_page"], $page);
-//        $data["links"] = $this->pagination->create_links();
-        //  echo $this->db->last_query();         exit;
+
+
+
+
+        $config = paginationConfiguration([
+            'total_item' => $this->Message_m->record_count(true),
+            'per_page' => 10,
+            'uri_segment' => 3,
+            'base_url' => site_url('user/messages'),
+        ]);
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data["results"] = $this->Message_m->getData($config["per_page"], $page);
+        $data["links"] = $this->pagination->create_links();
+         // echo $this->db->last_query();         exit;
         $this->load->view('front/template',$data);
     }
 }

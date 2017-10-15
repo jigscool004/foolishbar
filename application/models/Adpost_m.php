@@ -95,9 +95,6 @@ class Adpost_m extends CI_model {
         $this->db->limit($limit,$start);
         $this->query();
         return $this->db->from($this->tableName)->get()->result();
-
-
-
         //$data = $this->getData($limit,$start);
         ///return $data;
     }
