@@ -83,8 +83,8 @@ class Adpost_m extends CI_model {
         $this->db->distinct();
         $this->db->select('t.*,(SELECT save_name FROM document WHERE adpost_id = t.id LIMIT 1) AS save_name ,mc.name AS category_name,c.name as city_name');
     	$this->db->limit($limit,$start);
-    	$this->query($isLoggedIn);
-    	return $this->db->from($this->tableName)->get()->result();
+    	return $this->query($isLoggedIn)->get()->result();
+    	//return $this->db->from($this->tableName)
     }
 
     public function getWishListData($limit,$start) {
@@ -93,8 +93,8 @@ class Adpost_m extends CI_model {
         $this->db->distinct();
         $this->db->select('adw.id AS wishlist_id,t.*,(SELECT save_name FROM document WHERE adpost_id = t.id LIMIT 1) AS save_name ,mc.name AS category_name,c.name as city_name');
         $this->db->limit($limit,$start);
-        $this->query();
-        return $this->db->from($this->tableName)->get()->result();
+        return $this->query()->get()->result();
+        //return $this->db->from($this->tableName);
         //$data = $this->getData($limit,$start);
         ///return $data;
     }

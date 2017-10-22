@@ -156,7 +156,7 @@ class User extends CI_Controller {
         $data['header'] = $isArchived ? "My Archived Ads" : "My Ads";
         $config = paginationConfiguration([
             'total_item' => $this->Adpost_m->record_count(true),
-            'per_page' => 10,
+            'per_page' => 2,
             'uri_segment' => 3,
             'base_url' => site_url('user/myads'),
         ]);
@@ -215,7 +215,7 @@ class User extends CI_Controller {
 
         $config = paginationConfiguration([
             'total_item' => $this->Message_m->record_count(true),
-            'per_page' => 10,
+            'per_page' => 5,
             'uri_segment' => 3,
             'base_url' => site_url('user/messages'),
         ]);

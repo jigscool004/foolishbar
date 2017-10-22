@@ -4,6 +4,7 @@
 <script src="<?php echo site_url('assest/admin-lte/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 <style>
     .category-grid-box-1 .image img{height: 350px;}
+    .clickableClass{cursor: pointer;x}
 </style>
 <div class="small-breadcrumb">
     <div class="container">
@@ -37,7 +38,7 @@
                                         <div class="panel-body">
                                             <div class="tab-content">
                                                 <div class="tab-pane fade in active" id="tab1success">
-                                                    <table id="inboxTable">
+                                                    <table id="inboxTable" class="table table-bordered table-responsive">
                                                         <thead>
                                                         <tr>
                                                             <td>
@@ -49,21 +50,36 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <?php foreach($results as $key => $result) :
-                                                        var_dump($results);
-                                                        ?>
+                                                        <?php foreach($results as $key => $result) : ?>
                                                         <tr>
                                                             <td><input type="checkbox" name="selectAll" id="<?php echo $result->adpost_id?>"></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td class="clickableClass">
+                                                                <p><?php echo $result->name;?>
+                                                                    <span class="badge"><?php echo $result->msgCount;?></span>
+                                                                </p>
+                                                            </td>
+                                                            <td class="clickableClass"><?php echo $result->adtitle;?></td>
+                                                            <td><?php
+                                                                    $msgStamp = strtotime($result->created);
+                                                                    $currentYear = date('Y');
+                                                                    $msgYear = date('Y',$msgStamp);
+                                                                    $msgDateDay = date('d',$msgStamp);
+
+                                                                    $todayDate = $msgDateDay == date('d') ? ('Today ' . date(' h:i A',$msgStamp)) : '';
+                                                                    if ($currentYear == $msgYear) {
+                                                                        echo $todayDate !== '' ? $todayDate : date('d-M h:i A',$msgStamp);
+                                                                    } else {
+                                                                        echo $todayDate !== '' ? $todayDate : date('d-M-y h:i A',$msgStamp);
+                                                                    }
+                                                                ?></td>
                                                         </tr>
+
+                                                    <?php endforeach; ?>
                                                         </tbody>
                                                     </table>
-                                                    <?php
-                                                        endforeach;
-                                                        //var_dump($results);
-                                                    ?>
+                                                    <div class="col-md-12 col-xs-12 col-sm-12">
+                                                        <?php echo $links; ?>
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane fade" id="tab2success">Success 2</div>
                                             </div>
@@ -89,6 +105,7 @@ $btn = $this->session->flashdata('btn');
         if ('<?php echo $msg ?>' != "") {
             $.toaster({priority: '<?php echo $btn ?>', message: '<?php echo $msg ?>'});
         }
-        $('#inboxTable').DataTable();
+        //$('#inboxTable').DataTable();
+
     });
 </script>

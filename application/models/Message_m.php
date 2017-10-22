@@ -23,6 +23,7 @@ class Message_m extends CI_Model {
     }
     public function record_count($isLoggedIn = false) {
         $this->db->distinct();
+        //$this->db->select('t.id,COUNT(t.adpost_id) AS msgCount');
         $this->db->select('t.id');
         $data = $this->query($isLoggedIn)->get()->result();
         return count($data);
@@ -30,10 +31,10 @@ class Message_m extends CI_Model {
 
     public function getData($limit,$start,$isLoggedIn = false) {
         $this->db->distinct();
-        $this->db->select('t.*,COUNT(t.adpost_id) AS msgCount,ap.adtitle,au.name');
+        $this->db->select('t.*,COUNT(t.adpost_id) AS msgCount,MAX(t.created_on) as created,ap.adtitle,au.name');
         $this->db->limit($limit,$start);
-        $this->query($isLoggedIn);
-        return $this->db->from($this->tableName)->get()->result();
+        return $this->query($isLoggedIn)->get()->result();
+        //return $this->db->from($this->tableName);
     }
 
 }

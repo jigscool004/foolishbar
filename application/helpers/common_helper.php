@@ -136,7 +136,7 @@
             $config = array();
             $config["base_url"] =  isset($settingArr['base_url']) ? $settingArr['base_url'] : '';
             $config["total_rows"] = isset($settingArr['total_item']) ? $settingArr['total_item'] : 0;
-            $config["per_page"] = isset($settingArr['perPage']) ? $settingArr['perPage'] : 0;
+            $config["per_page"] = isset($settingArr['per_page']) ? $settingArr['per_page'] : 0;
             $config["uri_segment"] = isset($settingArr['uri_segment']) ? $settingArr['uri_segment'] : 0;
             $config['full_tag_open']    = "<ul class='pagination'>";
             $config['full_tag_close']   = "</ul>";
